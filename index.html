@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Tanks</title>
+	<script type="text/javascript" src="js/phaser.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	var game = new Phaser.Game(800,600, Phaser.CANVAS, '', {preload: preload, create: create, update:update});
+
+	function preload(){
+
+		game.load.image('sky', 'images/sky.png');
+		game.load.image('ground', 'images/platform.png');
+		game.load.image('tank', 'images/rec.jpg');
+	}
+
+	var cursors;
+	var platforms;
+	var tank;
+	var cannon;
+
+	function create(){
+		// add ARCADE physics to game
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+		
+		game.add.sprite(0,0, 'sky');
+
+		// add a group to game
+		platforms = game.add.group();
+
+		// enable physics on the platforms group
+		platforms.enableBody = true;
+
+		var ground = platforms.create(0,game.world.height-64, 'ground');
+
+		// increase ground size
+		ground.scale.setTo(2,2);
+
+		ground.body.immovable = true;
+
+		tank = game.add.sprite(0,0, 'tank');
+		// scales in precentages
+		tank.scale.x = .25;
+		tank.scale.y = .25;
+
+		game.physics.arcade.enable(tank);
+
+		tank.body.gravity.y = 300;
+		// cannot go out of the world
+		tank.body.collideWorldBounds = true;
+
+
+		cannon = game.add.sprite(tank.x + 40, tank.y + 10, 'tank');
+		cannon.scale.x = .35;
+		cannon.scale.y = .1;
+		game.physics.arcade.enable(cannon);
+
+		cursors = game.input.keyboard.createCursorKeys();	
+	}
+
+	function update(){
+		game.physics.arcade.collide(tank, platforms);
+
+		// set velocity and angular velocity when no keys are being pressed
+		tank.body.velocity.x = 0;
+		cannon.body.angularVelocity = 0;
+
+	    if (cursors.left.isDown)
+	    {
+	        //  Move to the left
+	        tank.body.velocity.x = -100;
+
+	    }
+	    if (cursors.right.isDown)
+	    {
+	        //  Move to the right
+	        tank.body.velocity.x = 100;
+
+	    }
+	    
+	    if(cursors.up.isDown && cannon.angle > -85){
+	    	// move cannon upwards but not pass 90 degrees
+	    	cannon.body.angularVelocity = -100;
+
+	    }
+	    if(cursors.down.isDown && cannon.angle < -4){
+	    	
+	    	// move cannon downwards but not passed 0 degrees
+	    	cannon.body.angularVelocity = 100;
+	    }
+
+	    // move cannon to a position based on the tank's position
+	    cannon.x = tank.x + 40;
+	    cannon.y = tank.y + 10;
+	}
+</script>
+</body>
+</html>
