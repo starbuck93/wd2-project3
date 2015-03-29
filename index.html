@@ -7,94 +7,209 @@
 </head>
 <body>
 <script type="text/javascript">
-	var game = new Phaser.Game(800,600, Phaser.CANVAS, '', {preload: preload, create: create, update:update});
+	var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
 
-	function preload(){
+	var PhaserGame = function(game) {
 
-		game.load.image('sky', 'images/sky.png');
-		game.load.image('ground', 'images/platform.png');
-		game.load.image('tank', 'images/rec.jpg');
-	}
+		this.tank = null;
+		this.cannon = null;
+		this.bullet = null;
 
-	var cursors;
-	var platforms;
-	var tank;
-	var cannon;
+		this.background = null;
+		this.land = null;
 
-	function create(){
-		// add ARCADE physics to game
-		game.physics.startSystem(Phaser.Physics.ARCADE);
-		
-		game.add.sprite(0,0, 'sky');
+		this.power = 300;
+		this.powerText = null;
 
-		// add a group to game
-		platforms = game.add.group();
+		this.cursors = null;
+		this.fireButton = null;
+	};
 
-		// enable physics on the platforms group
-		platforms.enableBody = true;
+	PhaserGame.prototype = {
 
-		var ground = platforms.create(0,game.world.height-64, 'ground');
+		init: function () {
 
-		// increase ground size
-		ground.scale.setTo(2,2);
-
-		ground.body.immovable = true;
-
-		tank = game.add.sprite(0,0, 'tank');
-		// scales in precentages
-		tank.scale.x = .25;
-		tank.scale.y = .25;
-
-		game.physics.arcade.enable(tank);
-
-		tank.body.gravity.y = 300;
-		// cannot go out of the world
-		tank.body.collideWorldBounds = true;
+            this.game.renderer.renderSession.roundPixels = true;
 
 
-		cannon = game.add.sprite(tank.x + 40, tank.y + 10, 'tank');
-		cannon.scale.x = .35;
-		cannon.scale.y = .1;
-		game.physics.arcade.enable(cannon);
+            this.physics.startSystem(Phaser.Physics.ARCADE);
+            this.physics.arcade.gravity.y = 200;
 
-		cursors = game.input.keyboard.createCursorKeys();	
-	}
+        },
 
-	function update(){
-		game.physics.arcade.collide(tank, platforms);
+		preload: function(){
 
-		// set velocity and angular velocity when no keys are being pressed
-		tank.body.velocity.x = 0;
-		cannon.body.angularVelocity = 0;
+			this.load.image('sky', 'images/sky.png');
+			this.load.image('ground', 'images/platform.png');
+			this.load.image('tank', 'images/rec.jpg');
+			this.load.image('bullet', 'images/bullet.png');
+            this.load.image('land', 'images/land.png');
+		},
 
-	    if (cursors.left.isDown)
-	    {
-	        //  Move to the left
-	        tank.body.velocity.x = -100;
 
-	    }
-	    if (cursors.right.isDown)
-	    {
-	        //  Move to the right
-	        tank.body.velocity.x = 100;
+		create: function(){
+			
+			this.background = this.add.sprite(0,0, 'sky');
 
-	    }
-	    
-	    if(cursors.up.isDown && cannon.angle > -85){
-	    	// move cannon upwards but not pass 90 degrees
-	    	cannon.body.angularVelocity = -100;
+			this.land = this.add.bitmapData(640,480);
+			this.land.draw('land');
+			this.land.update();
+			this.land.addToWorld();
 
-	    }
-	    if(cursors.down.isDown && cannon.angle < -4){
-	    	
-	    	// move cannon downwards but not passed 0 degrees
-	    	cannon.body.angularVelocity = 100;
-	    }
+			 //  A single bullet that the tank will fire
+            this.bullet = this.add.sprite(0, 0, 'bullet');
+            this.bullet.exists = false;
+            this.physics.arcade.enable(this.bullet);
 
-	    // move cannon to a position based on the tank's position
-	    cannon.x = tank.x + 40;
-	    cannon.y = tank.y + 10;
-	}
+
+			ground.body.immovable = true;
+
+			this.tank = this.add.sprite(0,0, 'tank');
+			// scales in precentages
+			this.tank.scale.x = .25;
+			this.tank.scale.y = .25;
+
+			this.tank.body.collideWorldBounds = true;
+
+
+			this.cannon = game.add.sprite(this.tank.x + 40, this.tank.y + 10, 'tank');
+			this.cannon.anchor.set(0.5);
+			this.cannon.scale.x = .35;
+			this.cannon.scale.y = .1;
+			this.physics.arcade.enable(this.cannon);
+
+			 //  Used to display the power of the shot
+            this.power = 300;
+            this.powerText = this.add.text(8, 8, 'Power: 300', { font: "18px Arial", fill: "#ffffff" });
+            this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.powerText.fixedToCamera = true;
+
+            //  Some basic controls
+            this.cursors = this.input.keyboard.createCursorKeys();
+    
+            this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            this.fireButton.onDown.add(this.fire, this);	
+		},
+
+		bulletVsLand: function () {
+
+            //  Simple bounds check
+            if (this.bullet.x < 0 || this.bullet.x > this.game.world.width || this.bullet.y > this.game.height)
+            {
+                this.removeBullet();
+                return;
+            }
+
+            var x = Math.floor(this.bullet.x);
+            var y = Math.floor(this.bullet.y);
+            var rgba = this.land.getPixel(x, y);
+
+            if (rgba.a > 0)
+            {
+                this.land.blendDestinationOut();
+                this.land.circle(x, y, 16, 'rgba(0, 0, 0, 255');
+                this.land.blendReset();
+                this.land.update();
+
+                //  If you like you could combine the above 4 lines:
+                // this.land.blendDestinationOut().circle(x, y, 16, 'rgba(0, 0, 0, 255').blendReset().update();
+
+                this.removeBullet();
+            }
+
+        },
+
+        fire: function () {
+
+            if (this.bullet.exists)
+            {
+                return;
+            }
+
+            //  Re-position the bullet where the cannon is
+            this.bullet.reset(this.cannon.x, this.cannon.y);
+
+            //  Now work out where the END of the cannon is
+            var p = new Phaser.Point(this.cannon.x, this.cannon.y);
+            p.rotate(p.x, p.y, this.cannon.rotation, false, 34);
+
+
+            //  Our launch trajectory is based on the angle of the cannon and the power
+            this.physics.arcade.velocityFromRotation(this.cannon.rotation, this.power, this.bullet.body.velocity);
+
+        },
+
+        /**
+         * Removes the bullet, stops the camera following and tweens the camera back to the tank.
+         * Have put this into its own method as it's called from several places.
+         *
+         * @method removeBullet
+         */
+        removeBullet: function (hasExploded) {
+
+            if (typeof hasExploded === 'undefined') { hasExploded = false; }
+
+            this.bullet.kill();
+            this.camera.follow();
+
+            var delay = 1000;
+
+            if (hasExploded)
+            {
+                delay = 2000;
+            }
+
+            this.add.tween(this.camera).to( { x: 0 }, 1000, "Quint", true, delay);
+
+        },
+
+        /**
+         * Core update loop. Handles collision checks and player input.
+         *
+         * @method update
+         */
+        update: function () {
+
+            //  If the bullet is in flight we don't let them control anything
+            if (this.bullet.exists)
+            {
+
+                //  Bullet vs. the land
+                this.bulletVsLand();
+            }
+            else
+            {
+                //  Allow them to set the power between 100 and 600
+                if (this.cursors.left.isDown && this.power > 100)
+                {
+                    this.power -= 2;
+                }
+                else if (this.cursors.right.isDown && this.power < 600)
+                {
+                    this.power += 2;
+                }
+
+                //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
+                if (this.cursors.up.isDown && this.cannon.angle > -90)
+                {
+                    this.cannon.angle--;
+                }
+                else if (this.cursors.down.isDown && this.cannon.angle < 0)
+                {
+                    this.cannon.angle++;
+                }
+
+                //  Update the text
+                this.powerText.text = 'Power: ' + this.power;
+            }
+
+        }
+
+    };
+
+    game.state.add('Game', PhaserGame, true);
+
+
 </script>
 </body>
 </html>
