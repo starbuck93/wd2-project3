@@ -51,8 +51,8 @@
 			
 			this.background = this.add.sprite(0,0, 'sky');
 
-			this.land = this.add.bitmapData(640,480);
-			this.land.draw('land');
+			this.land = this.add.bitmapData(640,64);
+            this.land.draw('ground', 300,50);
 			this.land.update();
 			this.land.addToWorld();
 
@@ -62,21 +62,20 @@
             this.physics.arcade.enable(this.bullet);
 
 
-			ground.body.immovable = true;
 
 			this.tank = this.add.sprite(0,0, 'tank');
 			// scales in precentages
 			this.tank.scale.x = .25;
 			this.tank.scale.y = .25;
+            this.physics.arcade.enable(this.tank);
 
 			this.tank.body.collideWorldBounds = true;
 
 
 			this.cannon = game.add.sprite(this.tank.x + 40, this.tank.y + 10, 'tank');
 			this.cannon.anchor.set(0.5);
-			this.cannon.scale.x = .35;
+			this.cannon.scale.x = .5;
 			this.cannon.scale.y = .1;
-			this.physics.arcade.enable(this.cannon);
 
 			 //  Used to display the power of the shot
             this.power = 300;
@@ -169,6 +168,9 @@
          * @method update
          */
         update: function () {
+
+            this.cannon.x = this.tank.x+40;
+            this.cannon.y = this.tank.y+10;
 
             //  If the bullet is in flight we don't let them control anything
             if (this.bullet.exists)
