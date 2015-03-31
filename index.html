@@ -51,10 +51,13 @@
 			
 			this.background = this.add.sprite(0,0, 'sky');
 
-			this.land = this.add.bitmapData(640,64);
-            this.land.draw('ground', 300,50);
-			this.land.update();
-			this.land.addToWorld();
+			this.land = this.add.sprite(0,game.world.height-64, "ground");
+            this.land.scale.setTo(2,2);
+            this.physics.arcade.enable(this.land);
+            this.land.body.immovable = true;
+            this.land.body.allowGravity = false;
+            this.land.boundsPadding = 0;
+
 
 			 //  A single bullet that the tank will fire
             this.bullet = this.add.sprite(0, 0, 'bullet');
@@ -65,17 +68,17 @@
 
 			this.tank = this.add.sprite(0,0, 'tank');
 			// scales in precentages
-			this.tank.scale.x = .25;
-			this.tank.scale.y = .25;
+			this.tank.scale.x = .05;
+			this.tank.scale.y = .075;
             this.physics.arcade.enable(this.tank);
-
 			this.tank.body.collideWorldBounds = true;
+            this.tank.boundsPadding = 0;
 
 
-			this.cannon = game.add.sprite(this.tank.x + 40, this.tank.y + 10, 'tank');
-			this.cannon.anchor.set(0.5);
-			this.cannon.scale.x = .5;
-			this.cannon.scale.y = .1;
+			this.cannon = game.add.sprite(this.tank.x, this.tank.y, 'tank');
+			
+			this.cannon.scale.x = .06;
+			this.cannon.scale.y = .02;
 
 			 //  Used to display the power of the shot
             this.power = 300;
@@ -99,7 +102,7 @@
                 return;
             }
 
-            var x = Math.floor(this.bullet.x);
+            /*var x = Math.floor(this.bullet.x);
             var y = Math.floor(this.bullet.y);
             var rgba = this.land.getPixel(x, y);
 
@@ -114,7 +117,7 @@
                 // this.land.blendDestinationOut().circle(x, y, 16, 'rgba(0, 0, 0, 255').blendReset().update();
 
                 this.removeBullet();
-            }
+            }*/
 
         },
 
@@ -169,8 +172,10 @@
          */
         update: function () {
 
-            this.cannon.x = this.tank.x+40;
-            this.cannon.y = this.tank.y+10;
+            this.cannon.x = this.tank.x+8;
+            this.cannon.y = this.tank.y+5;
+
+            this.physics.arcade.collide(this.land, this.tank);
 
             //  If the bullet is in flight we don't let them control anything
             if (this.bullet.exists)
