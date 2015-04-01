@@ -1,37 +1,47 @@
 <?php
 session_start(); // Starting Session stolen from http://www.formget.com/login-form-in-php/
 $error=''; // Variable To Store Error Message
-if (isset($_POST['submit'])) {
-  if (empty($_POST['username']) || empty($_POST['password'])) {
+if (isset($_POST['submit'])) 
+  if (empty($_POST['email']) || empty($_POST['password'])) {
     $error = "Username or Password is invalid";
-}
+  }
 else
   {
+
     $email=$_POST['email'];
     $password=$_POST['password'];
     // Establishing Connection with Server by passing server_name, user_id and password as a parameter
-    $link = mysqli_connect("localhost", "root", "");
+    $link = new mysqli("localhost","root","","tanks"); /*for local testing only*/
+    if ($link->connect_errno) {
+      printf("Connect failed: %s\n", $link->connect_error);
+      exit();
+    }
+
     // To protect MySQL injection for Security purpose
     $email = mysqli_real_escape_string($link,stripslashes($email));
     $password = mysqli_real_escape_string($link,stripslashes($password));
     $password = md5($password);
-    // Selecting Database
-    $db = mysqli_select_db("tanks", $link);
     // SQL query to fetch information of registerd users and finds user match.
-    $query = mysqli_query($link, "SELECT * from login where password='$password' AND email='$email'");
-    $rows = $query->num_rows;
+    $query = "SELECT * from login where password='$password' AND email='$email'";
+    print($query);
+    $result = $link->query($query);
+    if(!$result){ 
+      $error = $link->error;
+      die($link->error);
+    }
+    $rows = $result->num_rows;
     if ($rows == 1) {
       $_SESSION['name'] = $name;
       $_SESSION['username'] = $username;
       $_SESSION['email'] = $email;
       $_SESSION['signedIn'] = true;
-      header("location: profile.php"); // Redirecting To Other Page
+      header("location: index2.php"); // Redirecting To Other Page
     } else {
       $error = "Username or Password is invalid";
     }
     mysqli_close($link); // Closing Connection
   }
-}
+
 
 
 ?>
@@ -81,7 +91,7 @@ else
               <input type="password" class="form-control input-lg" placeholder="Password" name="password">
             </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-lg btn-block">Sign In</button>
+              <button class="btn btn-primary btn-lg btn-block" name="submit" value="true">Sign In</button>
               <span class="pull-right"><a href="register.php">Register</a></span><span><a href="#">Need help?</a></span>
             </div>
           </form>
@@ -112,4 +122,5 @@ else
         
        
     
-</body></html>
+</body>
+</html>
