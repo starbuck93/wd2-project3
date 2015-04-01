@@ -23,6 +23,9 @@
 
 		this.cursors = null;
 		this.fireButton = null;
+
+        this.move = true;
+        this.ableToFire = false;
 	};
 
 	PhaserGame.prototype = {
@@ -90,7 +93,7 @@
             this.cursors = this.input.keyboard.createCursorKeys();
     
             this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            this.fireButton.onDown.add(this.fire, this);	
+            this.fireButton.onDown.add(this.switchB, this);	
 		},
 
 		bulletVsLand: function () {
@@ -165,6 +168,14 @@
 
         },
 
+        switchB: function(){
+            this.move = !this.move;
+            this.ableToFire = !this.ableToFire;
+
+            if(this.move)
+                this.fire();
+        },
+
         /**
          * Core update loop. Handles collision checks and player input.
          *
@@ -174,6 +185,8 @@
 
             this.cannon.x = this.tank.x+8;
             this.cannon.y = this.tank.y+5;
+
+
 
             this.physics.arcade.collide(this.land, this.tank);
 
@@ -186,28 +199,48 @@
             }
             else
             {
-                //  Allow them to set the power between 100 and 600
-                if (this.cursors.left.isDown && this.power > 100)
-                {
-                    this.power -= 2;
-                }
-                else if (this.cursors.right.isDown && this.power < 600)
-                {
-                    this.power += 2;
-                }
+                if(this.move){
 
-                //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
-                if (this.cursors.up.isDown && this.cannon.angle > -90)
-                {
-                    this.cannon.angle--;
-                }
-                else if (this.cursors.down.isDown && this.cannon.angle < 0)
-                {
-                    this.cannon.angle++;
-                }
+                    this.tank.body.velocity.x = 0;
 
-                //  Update the text
-                this.powerText.text = 'Power: ' + this.power;
+                    if (this.cursors.left.isDown)
+                    {
+                        //  Move to the left
+                        this.tank.body.velocity.x = -100;
+
+                    }
+                    if (this.cursors.right.isDown)
+                    {
+                        //  Move to the right
+                        this.tank.body.velocity.x = 100;
+
+                    }     
+                    
+                }
+                if(this.ableToFire){
+                    //  Allow them to set the power between 100 and 600
+                    if (this.cursors.left.isDown && this.power > 100)
+                    {
+                        this.power -= 2;
+                    }
+                    else if (this.cursors.right.isDown && this.power < 600)
+                    {
+                        this.power += 2;
+                    }
+
+                    //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
+                    if (this.cursors.up.isDown && this.cannon.angle > -90)
+                    {
+                        this.cannon.angle--;
+                    }
+                    else if (this.cursors.down.isDown && this.cannon.angle < 0)
+                    {
+                        this.cannon.angle++;
+                    }
+
+                    //  Update the text
+                    this.powerText.text = 'Power: ' + this.power;
+                }
             }
 
         }
