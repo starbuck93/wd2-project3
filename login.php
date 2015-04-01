@@ -7,23 +7,24 @@ if (isset($_POST['submit'])) {
 }
 else
   {
-    $username=$_POST['username'];
+    $email=$_POST['email'];
     $password=$_POST['password'];
     // Establishing Connection with Server by passing server_name, user_id and password as a parameter
     $link = mysqli_connect("localhost", "root", "");
     // To protect MySQL injection for Security purpose
-    $username = stripslashes($username);
-    $password = stripslashes($password);
-    $username = mysqli_real_escape_string($username);
-    $password = mysqli_real_escape_string($password);
+    $email = mysqli_real_escape_string($link,stripslashes($email));
+    $password = mysqli_real_escape_string($link,stripslashes($password));
     $password = md5($password);
     // Selecting Database
     $db = mysqli_select_db("tanks", $link);
     // SQL query to fetch information of registerd users and finds user match.
-    $query = mysqli_query($link, "SELECT * from login where password='$password' AND username='$username'");
-    $rows = mysql_num_rows($query);
+    $query = mysqli_query($link, "SELECT * from login where password='$password' AND email='$email'");
+    $rows = $query->num_rows;
     if ($rows == 1) {
-      $_SESSION['login_user']=$username; // Initializing Session
+      $_SESSION['name'] = $name;
+      $_SESSION['username'] = $username;
+      $_SESSION['email'] = $email;
+      $_SESSION['signedIn'] = true;
       header("location: profile.php"); // Redirecting To Other Page
     } else {
       $error = "Username or Password is invalid";
@@ -72,12 +73,12 @@ else
           <h3 class="text-center"><a href="register.php">Need an account?</a></h3>
       </div>
       <div class="modal-body">
-          <form class="form col-md-12 center-block" action="index2.php">
+          <form class="form col-md-12 center-block" action="login.php" method="POST">
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Email">
+              <input type="text" class="form-control input-lg" placeholder="Email" name="email">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control input-lg" placeholder="Password">
+              <input type="password" class="form-control input-lg" placeholder="Password" name="password">
             </div>
             <div class="form-group">
               <button class="btn btn-primary btn-lg btn-block">Sign In</button>

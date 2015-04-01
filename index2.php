@@ -45,9 +45,10 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         <li><a href="#">Rankings</a></li>
         <?php if($signedIn) { ?> <li><a href="#">Chat</a></li> <?php } ?>
         <?php if(!$signedIn) { ?> <li><a href="login.php">Login</a></li> <?php } ?>
+        <?php if(!$signedIn) { ?> <li><a href="register.php">Register</a></li> <?php } ?>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <?php if($signedIn) print("<li><a href=\"logout.php\">Hello, ".$_SESSION['username']." . Click to Logout</a></li>"); ?>
+        <?php if($signedIn) print("<li><a href=\"logout.php\">Hello, ".$_SESSION['username']." . <span class=\"text-danger\">Click to Logout</span></a></li>"); ?>
       </ul>
     </div>
   </div>
