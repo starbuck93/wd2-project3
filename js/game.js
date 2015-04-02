@@ -1,13 +1,5 @@
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>Tanks</title>
-	<script type="text/javascript" src="js/phaser.js"></script>
-</head>
-<body>
-<script type="text/javascript">
-	var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
+
+
 
 	var PhaserGame = function(game) {
 
@@ -246,10 +238,3 @@
         }
 
     };
-
-    game.state.add('Game', PhaserGame, true);
-
-
-</script>
-</body>
-</html>
