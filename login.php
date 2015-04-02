@@ -76,44 +76,39 @@ else
     <body>
         
         <!--login modal-->
-<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h1 class="text-center">Login</h1>
-          <h3 class="text-center"><a href="register.php">Need an account?</a></h3>
-      </div>
-      <div class="modal-body">
-          <?php if($error != '') { ?><p class="text-center text-warning"><?php print($error); ?></p><?php }?>
-          <form class="form col-md-12 center-block" action="login.php" method="POST">
-            <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Email" name="email">
+      <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1 class="text-center">Login</h1>
+                <h3 class="text-center"><a href="register.php">Need an account?</a></h3>
             </div>
-            <div class="form-group">
-              <input type="password" class="form-control input-lg" placeholder="Password" name="password">
+            <div class="modal-body">
+                <?php if($error != '') { ?><p class="text-center text-warning"><?php print($error); ?></p><?php }?>
+                <form class="form col-md-12 center-block" action="login.php" method="POST">
+                  <div class="form-group">
+                    <input type="text" class="form-control input-lg" placeholder="Email" name="email">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control input-lg" placeholder="Password" name="password">
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary btn-lg btn-block" name="submit" value="true">Sign In</button>
+                    <span class="pull-right"><a href="register.php">Register</a></span><span><a href="#">Need help?</a></span>
+                  </div>
+                </form>
             </div>
-            <div class="form-group">
-              <button class="btn btn-primary btn-lg btn-block" name="submit" value="true">Sign In</button>
-              <span class="pull-right"><a href="register.php">Register</a></span><span><a href="#">Need help?</a></span>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                <a href="index2.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
+            </div>  
             </div>
-          </form>
+        </div>
+        </div>
       </div>
-      <div class="modal-footer">
-          <div class="col-md-12">
-          <a href="index2.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
-      </div>  
-      </div>
-  </div>
-  </div>
-</div>
 
-        <script type="text/javascript" src="css/bootstrap.min.js"></script>
-
-
-
-
-
+      <script type="text/javascript" src="css/bootstrap.min.js"></script>
 
         
         <!-- JavaScript jQuery code from Bootply.com editor  -->
