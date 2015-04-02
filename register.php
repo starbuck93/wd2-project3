@@ -1,5 +1,6 @@
  <?php
 session_start(); // Starting Session stolen from http://www.formget.com/login-form-in-php/
+include 'password.php';
 $error=''; // Variable To Store Error Message
 if (isset($_POST['submit'])) {
 
@@ -8,7 +9,7 @@ if (isset($_POST['submit'])) {
     $username=$_POST['username'];
     $password=$_POST['password'];
     // Establishing Connection with Server by passing server_name, user_id and password as a parameter
-    $link = new mysqli("localhost","root","","tanks"); /*for local testing only*/
+    $link = new mysqli(getHost(),getUsername(),getPassword(),"tanks"); /*for local testing only*/
     if ($link->connect_errno) {
       printf("Connect failed: %s\n", $link->connect_error);
       exit();
