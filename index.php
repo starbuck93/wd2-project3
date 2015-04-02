@@ -19,7 +19,28 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <link href="css/justified-nav.css" rel="stylesheet">
     <script type="text/javascript" src="js/phaser.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-   
+    <script type="text/javascript" src="chat.js"></script> <!-- for chat javascript file -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <style>
+      div.chat_box {
+        background: #ccc none repeat scroll 0 0;
+        border: 3px solid #666;
+        margin-bottom: 5px;
+        /*padding: 5px;*/
+        position: relative;
+        width: 200px;
+        height: 100px;
+        overflow: auto;
+      }
+      /*p {
+        margin: 10px;
+        padding: 5px;
+        border: 2px solid #666;
+        width: 1000px;
+        height: 1000px;
+      }*/
+  </style>
   </head>
 
   <body>
@@ -68,9 +89,37 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <?php } else {
 
       echo "<div id='game'></div>";
-
+      
        }?>
+
       <!-- Site footer -->
+      <!-- Scroll bar present and enabled -->      
+
+      <h3>Chat</h3>  
+      <div class="chat_box" id="chat_box" style="width: 640px; height: 175px; overflow-y: scroll; border: 2px solid black">
+          <!-- test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br />
+          test<br /> -->
+          <label id="status-label" style="color: black">Status</label>
+      </div>
+      
+
+      <article>        
+        <input type="text" id="text-view" placeholder="Type your message" style="width: 580px"/>
+        <input type="button" id="send-button" value="Send!" style="width: 57px" />
+        <br />
+        
+      
+        <input type="button" id="stop-button" value="Stop" />
+      </article>
+
       <footer class="footer">
         <p>&copy; Company 2014</p>
       </footer>
