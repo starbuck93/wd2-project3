@@ -10,9 +10,4 @@ function getPassword()
 	return '';
 }
 
-function getHost()
-{
-	return 'localhost';
-}
-
 ?>
