@@ -17,6 +17,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <title>TanksTanksTanks</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/justified-nav.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/chatstyle.css">
   </head>
 
   <body>
@@ -41,9 +42,9 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Lobby <span class="sr-only">(current)</span></a></li>
+                <li><a href="index2.php">Lobby <span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Rankings</a></li>
-                <?php if($signedIn) { ?> <li><a href="chat.php">Chat</a></li> <?php } ?>
+                <?php if($signedIn) { ?> <li class="active"><a href="#">Chat</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="login.php">Login</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="register.php">Register</a></li> <?php } ?>
               </ul>
@@ -64,7 +65,13 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else { ?>
 
-      <canvas></canvas>
+      <iframe src="http://wd2.starbuckstech.com:3000/" width="100%" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
+
+
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="js/main.js"></script>
+
 
       <?php }?>
       <!-- Site footer -->

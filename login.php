@@ -23,7 +23,6 @@ else
     $password = md5($password);
     // SQL query to fetch information of registerd users and finds user match.
     $query = "SELECT * from login where password='$password' AND email='$email'";
-    print($query);
     $result = $link->query($query);
     if(!$result){ 
       $error = $link->error;
@@ -31,10 +30,13 @@ else
     }
     $rows = $result->num_rows;
     if ($rows == 1) {
-      $_SESSION['name'] = $name;
-      $_SESSION['username'] = $username;
-      $_SESSION['email'] = $email;
-      $_SESSION['signedIn'] = true;
+      while ($row = mysqli_fetch_assoc($result)) {
+        $_SESSION['name'] = $row['name'];
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['email'] = $email;
+        $_SESSION['signedIn'] = true;
+      }
+
       header("location: index2.php"); // Redirecting To Other Page
     } else {
       $error = "Username or Password is invalid";
@@ -83,6 +85,7 @@ else
           <h3 class="text-center"><a href="register.php">Need an account?</a></h3>
       </div>
       <div class="modal-body">
+          <?php if($error != '') { ?><p class="text-center text-warning"><?php print($error); ?></p><?php }?>
           <form class="form col-md-12 center-block" action="login.php" method="POST">
             <div class="form-group">
               <input type="text" class="form-control input-lg" placeholder="Email" name="email">
