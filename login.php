@@ -37,7 +37,7 @@ else
         $_SESSION['signedIn'] = true;
       }
 
-      header("location: index2.php"); // Redirecting To Other Page
+      header("location: index.php"); // Redirecting To Other Page
     } else {
       $error = "Username or Password is invalid";
     }
@@ -104,8 +104,12 @@ else
                 <a href="index2.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
             </div>  
             </div>
-        </div>
-        </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <a href="index.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
+      </div>  
       </div>
 
       <script type="text/javascript" src="css/bootstrap.min.js"></script>
