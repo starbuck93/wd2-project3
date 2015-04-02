@@ -19,14 +19,6 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <link href="css/justified-nav.css" rel="stylesheet">
     <script type="text/javascript" src="js/phaser.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-    <script>
-    
-      var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
-      game.state.add("Game", PhaserGame, true);
-      game.state.start("Game");
-    
-
-    </script>
    
   </head>
 
@@ -73,11 +65,11 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         <p>
         <p><a class="btn btn-lg btn-success" href="login.php" role="button">Sign In or Register Now!</a></p>
       </div>
-      <?php } else { ?>
+      <?php } else {
 
-      <div id='game'></div>
+      echo "<div id='game'></div>";
 
-      <?php }?>
+       }?>
       <!-- Site footer -->
       <footer class="footer">
         <p>&copy; Company 2014</p>
@@ -86,4 +78,13 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     </div> <!-- /container -->
 
   </body>
+  <script>
+    var exists = document.getElementById('game');
+    if(exists != null){
+      var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
+      game.state.add("Game", PhaserGame, true);
+      game.state.start("Game");
+    }
+
+  </script>
 </html>

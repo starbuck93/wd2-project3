@@ -35,7 +35,7 @@ else
       $_SESSION['username'] = $username;
       $_SESSION['email'] = $email;
       $_SESSION['signedIn'] = true;
-      header("location: index2.php"); // Redirecting To Other Page
+      header("location: index.php"); // Redirecting To Other Page
     } else {
       $error = "Username or Password is invalid";
     }

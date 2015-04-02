@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['signedIn'] = true;
       mysqli_close($link);
       // echo "It worked!";
-      header('Location: index2.php');
+      header('Location: index.php');
     }
 }
 
