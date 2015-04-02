@@ -63,7 +63,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         <h1>TanksTanksTanks</h1>
         <p class="lead">Tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks</p>
         <p>
-        <p><a class="btn btn-lg btn-success" href="login.php" role="button">Sign In or Register Now!</a></p>
+        <p><a class="btn btn-lg btn-success" href="login.php" role="button">Sign In or Register Now to Play!</a></p>
       </div>
       <?php } else {
 

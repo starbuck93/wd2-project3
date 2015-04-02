@@ -100,17 +100,13 @@ else
                 </form>
             </div>
             <div class="modal-footer">
-                <div class="col-md-12">
+              <div class="col-md-12">
                 <a href="index2.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
-            </div>  
+              </div>  
             </div>
           </form>
       </div>
-      <div class="modal-footer">
-          <div class="col-md-12">
-          <a href="index.php" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</a>
-      </div>  
-      </div>
+
 
       <script type="text/javascript" src="css/bootstrap.min.js"></script>
 
