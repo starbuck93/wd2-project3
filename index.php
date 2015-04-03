@@ -131,8 +131,9 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     var exists = document.getElementById('game');
     if(exists != null){
       var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
-      game.state.add("Game", PhaserGame, true);
-      game.state.start("Game");
+      game.state.add("play", PhaserGame, true);
+      game.state.add('menu', menu, true);
+      game.state.start("menu");
     }
 
   </script>

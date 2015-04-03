@@ -1,7 +1,39 @@
 
+    var menu = function(game){
+        this.background = null;
+        this.ground = null;
+        this.startB = null;
+        this.click = null;
+    };
+
+    menu.prototype = {
+
+        preload: function(){
+
+            this.load.image('background', 'images/menuBackground.jpg');
+            this.load.image('startButton', 'images/startButton.png');
+
+        },
+
+        create: function(){
+
+            this.background = this.add.sprite(0,0, 'background');
 
 
-	var PhaserGame = function(game) {
+            this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
+            this.startB.anchor.setTo(0.5,0.5);
+
+        },
+
+        startClick: function(){
+
+            this.game.state.start('play');
+        }
+    };
+
+	
+
+    var PhaserGame = function(game) {
 
 		this.tank = null;
 		this.cannon = null;
