@@ -18,8 +18,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/justified-nav.css" rel="stylesheet">
     <script type="text/javascript" src="js/phaser.js"></script>
+    <script src="socket.io.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="chat.js"></script> <!-- for chat javascript file -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     <style>
@@ -96,29 +96,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <!-- Scroll bar present and enabled -->      
 
       <h3>Chat</h3>  
-      <div class="chat_box" id="chat_box" style="width: 640px; height: 175px; overflow-y: scroll; border: 2px solid black">
-          <!-- test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br />
-          test<br /> -->
-          <label id="status-label" style="color: black">Status</label>
-      </div>
-      
-
-      <article>        
-        <input type="text" id="text-view" placeholder="Type your message" style="width: 580px"/>
-        <input type="button" id="send-button" value="Send!" style="width: 57px" />
-        <br />
-        
-      
-        <input type="button" id="stop-button" value="Stop" />
-      </article>
+      <iframe src="http://wd2.starbuckstech.com:3000/" width="640" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
 
       <footer class="footer">
         <p>&copy; Company 2014</p>
@@ -134,6 +112,10 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       game.state.add("play", PhaserGame, true);
       game.state.add('menu', menu, true);
       game.state.start("menu");
+
+      socket.on('connect', function(){
+        socket.emit('username', {username: "<?php echo $_SESSION['username']; ?>"});
+      });
     }
 
   </script>

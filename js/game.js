@@ -1,5 +1,29 @@
+
+var socket = io('http://localhost:1234');
+var username = '';
+
+socket.on('addUsername', function (data) {
+  console.log(data.username + " " + data.people);
+  username = data.username + data.people;
+});
+
+socket.on('gameStart', function () {
+	console.log("blee");
+});
+
+
    var player;
    var ground;
+   var flagWaiting = true;
+
+socket.on('onJoin', function (data) {
+  console.log(data);
+  if (data.people > 1) {
+  	flagWaiting = false;
+  };
+  console.log(flagWaiting);
+  
+});
 
     var Tank = function(index, game){
         this.cursor = {
@@ -15,6 +39,8 @@
             up:false,
             down:false
         }
+
+        this.username = username;
 
         this.game = game;
         this.move = true;
@@ -170,6 +196,7 @@
                     }
 
                     //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
+                    else if (this.cursor.up && this.cannon.angle > -179)
                     {
                         this.cannon.angle--;
                     }
@@ -270,6 +297,17 @@
             this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.powerText.fixedToCamera = true;
 
+			this.waitingText = this.add.text(8, 40, 'Waiting for more players...', { font: "18px Arial", fill: "#ffffff" });
+            this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.waitingText.fixedToCamera = true;
+
+
+			this.username = this.add.text(550, 8, username, { font: "18px Arial", fill: "#ffffff" });
+            this.username.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.username.fixedToCamera = true;
+            this.username.align="right";
+
+
             //  Some basic controls
             this.cursors = this.input.keyboard.createCursorKeys();
 			
@@ -279,6 +317,10 @@
 
 		
         update: function () {
+
+        	if (!flagWaiting) {
+        		this.game.world.remove(waitingText);
+        	};
 
             player.cursor.left = this.cursors.left.isDown;
             player.cursor.right = this.cursors.right.isDown;

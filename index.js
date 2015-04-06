@@ -1,5 +1,6 @@
 //server.js
 
+
 // Require dependencies
 var clients = [];
 var app = require('http').createServer()
@@ -8,11 +9,20 @@ var app = require('http').createServer()
 
 var usernames = {};
 var rooms = ['Lobby'];
+var people = 0;
 // creating the server ( localhost:8000 )
 app.listen(1234);
  io.sockets.on('connection', function(socket) {
-  socket.on('adduser', function (username){ //call this with the $username var in php
-
+  socket.on('username', function (data){ //call this with the $username var in php
+        // socket.username = username;
+        people += 1;
+        console.log(people);
+        socket.room = 'Lobby';         
+        usernames[data.username] = data.username;
+        socket.join('Lobby');          
+        // socket.broadcast.to('Lobby').emit('updateThing', 'SERVER', username + ' has connected to this room');
+        socket.emit('addUsername',{username: data.username, people: people  });
+        socket.emit('onJoin', {people: people});
     });
  	socket.on('create', function(room) { //one room means 2 people playing a single game
         rooms.push(room);
@@ -33,6 +43,7 @@ app.listen(1234);
 
     socket.on('disconnect', function() {
         delete usernames[socket.username];
+        people -= 1;
         io.sockets.emit('updateusers', usernames);
         socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
         socket.leave(socket.room);

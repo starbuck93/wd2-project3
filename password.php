@@ -2,12 +2,12 @@
 
 function getUsername()
 {
-	return 'user';
+	return 'root';
 }
 
 function getPassword()
 {
-	return 'password';
+	return '';
 }
 
 function getHost()
