@@ -238,7 +238,6 @@ socket.on('onJoin', function (data) {
             this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.waitingText.fixedToCamera = true;
 
-            socket.on('startGame')
 
         },
 
