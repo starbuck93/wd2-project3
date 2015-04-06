@@ -231,15 +231,21 @@ socket.on('onJoin', function (data) {
             this.background = this.add.sprite(0,0, 'background');
 
 
-            this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
-            this.startB.anchor.setTo(0.5,0.5);
+            // this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
+            // this.startB.anchor.setTo(0.5,0.5);
+
+            this.waitingText = this.add.text(8, 40, 'Waiting for more players... Have one of your friends join', { font: "18px Arial", fill: "#ffffff" });
+            this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.waitingText.fixedToCamera = true;
+
+            socket.on('startGame')
 
         },
 
-        startClick: function(){
+        // startClick: function(){
 
-            this.game.state.start('play');
-        }
+        //     this.game.state.start('play');
+        // }
     };
 
 	
@@ -302,11 +308,6 @@ socket.on('onJoin', function (data) {
             this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.powerText.fixedToCamera = true;
 
-			this.waitingText = this.add.text(8, 40, 'Waiting for more players...', { font: "18px Arial", fill: "#ffffff" });
-            this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-            this.waitingText.fixedToCamera = true;
-
-
 			this.username = this.add.text(550, 8, player.username, { font: "18px Arial", fill: "#ffffff" });
             this.username.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.username.fixedToCamera = true;
@@ -323,9 +324,9 @@ socket.on('onJoin', function (data) {
 		
         update: function () {
 
-        	if (!flagWaiting) {
-        		game.world.remove(this.waitingText);
-        	}
+        	// if (!flagWaiting) {
+        	// 	game.world.remove(this.waitingText);
+        	// }
 
             player.cursor.left = this.cursors.left.isDown;
             player.cursor.right = this.cursors.right.isDown;
