@@ -1,5 +1,5 @@
 
-var socket = io('http://localhost:1234');
+var socket = io('http://wd2.starbuckstech.com:1234');
 var username = '';
 
 socket.on('addUsername', function (data) {
@@ -246,6 +246,8 @@ socket.on('onJoin', function (data) {
 
     var PhaserGame = function(game) {
 
+		this.game = game;
+
 		this.background = null;
 
 		this.power = 300;
@@ -259,6 +261,7 @@ socket.on('onJoin', function (data) {
 	PhaserGame.prototype = {
 
 		init: function () {
+
 
             this.game.renderer.renderSession.roundPixels = true;
 
@@ -279,7 +282,7 @@ socket.on('onJoin', function (data) {
 
 
 		create: function(){
-			
+
 			this.background = this.add.sprite(0,0, 'sky');
 
 			ground = this.add.sprite(0,game.world.height-64, "ground");
@@ -319,8 +322,8 @@ socket.on('onJoin', function (data) {
         update: function () {
 
         	if (!flagWaiting) {
-        		this.game.world.remove(waitingText);
-        	};
+        		game.world.remove(this.waitingText);
+        	}
 
             player.cursor.left = this.cursors.left.isDown;
             player.cursor.right = this.cursors.right.isDown;
