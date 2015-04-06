@@ -170,7 +170,6 @@
                     }
 
                     //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
-                    if (this.cursor.up && this.cannon.angle > -90)
                     {
                         this.cannon.angle--;
                     }
