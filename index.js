@@ -16,14 +16,14 @@ app.listen(1234);
   socket.on('username', function (data){ //call this with the $username var in php
         // socket.username = username;
         people += 1;
-        console.log(people + " 1 join");
+        console.log(people + " " + data.username + " join");
         socket.room = 'Lobby';         
         usernames[data.username] = data.username;
         socket.join('Lobby');          
         socket.emit('addUsername',{username: data.username, people: people  });
         socket.broadcast.to('Lobby').emit('onJoin', {people: people});
         socket.emit('onJoin', {people: people});
-        if (people == 2) {
+        if (people > 1) {
             socket.emit('startGame', {people: people});
         };
     });
@@ -45,11 +45,11 @@ app.listen(1234);
     });
 
     socket.on('disconnect', function() {
-        delete usernames[socket.username];
+        // delete usernames[socket.username];
         people -= 1;
-        console.log(people + " 1 leave");
+        console.log(people + " leave");
         io.sockets.emit('updateusers', usernames);
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+        // socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
         socket.leave(socket.room);
     });
  });

@@ -111,13 +111,14 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       game.state.add("play", PhaserGame, true);
       game.state.add('menu', menu, true);
       game.state.start("menu");
-      socket.on('startGame', function(){
-        game.state.start("play");
-      });
     
 
       socket.on('connect', function(){
-        socket.emit('username', {username: "<?php echo $_SESSION['username']; ?>"});
+        socket.emit('username', {username: "<?php echo $_SESSION['username']; ?>"});      
+        socket.on('startGame', function(data){
+          if (data.people > 1) {game.state.start("play");};
+      });
+
       });
     }
 
