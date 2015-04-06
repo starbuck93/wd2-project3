@@ -293,6 +293,8 @@ socket.on('onJoin', function (data) {
             ground.boundsPadding = 0;
 
             player = new Tank(0, this);
+            // player2 = new Tank(1, this);
+            // player2.position = (100,60);
 
             //  Used to display the power of the shot
             this.power = player.power;
@@ -305,7 +307,7 @@ socket.on('onJoin', function (data) {
             this.waitingText.fixedToCamera = true;
 
 
-			this.username = this.add.text(550, 8, username, { font: "18px Arial", fill: "#ffffff" });
+			this.username = this.add.text(550, 8, player.username, { font: "18px Arial", fill: "#ffffff" });
             this.username.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.username.fixedToCamera = true;
             this.username.align="right";

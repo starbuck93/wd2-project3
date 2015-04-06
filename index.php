@@ -78,25 +78,24 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
           </div>
         </nav>
       </div>
+
+
       <?php if(!$signedIn) { ?>
       <!-- Jumbotron -->
       <div class="jumbotron">
         <h1>TanksTanksTanks</h1>
         <p class="lead">Tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks</p>
-        <p>
+        <br>
         <p><a class="btn btn-lg btn-success" href="login.php" role="button">Sign In or Register Now to Play!</a></p>
       </div>
-      <?php } else {
+      <?php } else {?>
 
-      echo "<div id='game'></div>";
-      
-       }?>
-
-      <!-- Site footer -->
-      <!-- Scroll bar present and enabled -->      
+      <div id='game'></div>   
 
       <h3>Chat</h3>  
-      <iframe src="http://wd2.starbuckstech.com:3000/" width="640" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
+        <iframe src="http://wd2.starbuckstech.com:3000/" width="640" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
+      <?php } ?>
+
 
       <footer class="footer">
         <p>&copy; Company 2014</p>
