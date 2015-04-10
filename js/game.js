@@ -333,6 +333,7 @@ socket.on('onJoin', function (data) {
             player.cursor.down = this.cursors.down.isDown;
 
             player.update();
+            // player2.update();
 
             //  Update the text
             this.powerText.text = 'Power: ' + player.power;
