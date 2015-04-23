@@ -82,24 +82,6 @@ socket.on('onJoin', function (data) {
                 this.removeBullet();
                 return;
             }
-
-            /*var x = Math.floor(this.bullet.x);
-            var y = Math.floor(this.bullet.y);
-            var rgba = this.land.getPixel(x, y);
-
-            if (rgba.a > 0)
-            {
-                this.land.blendDestinationOut();
-                this.land.circle(x, y, 16, 'rgba(0, 0, 0, 255');
-                this.land.blendReset();
-                this.land.update();
-
-                //  If you like you could combine the above 4 lines:
-                // this.land.blendDestinationOut().circle(x, y, 16, 'rgba(0, 0, 0, 255').blendReset().update();
-
-                this.removeBullet();
-            }*/
-
         },
 
         fire: function () {
@@ -122,17 +104,9 @@ socket.on('onJoin', function (data) {
 
         },
 
-        /**
-         * Removes the bullet, stops the camera following and tweens the camera back to the tank.
-         * Have put this into its own method as it's called from several places.
-         *
-         * @method removeBullet
-         */
         removeBullet: function () {
 
             this.bullet.kill();
-
-
         },
 
         switchB: function(){
@@ -159,17 +133,7 @@ socket.on('onJoin', function (data) {
             game.physics.arcade.collide(ground, this.tank);
 
 
-            socket.on('playerMove', function (data) {
-              console.log(data);
-              //{player: data.player, move: data.direction}
 
-              if (data.player == 1 && data.move == "left") { //  Move to the left
-                this.tank.body.velocity.x = -100;
-              };
-              if (data.player == 1 && data.move == "right") { //  Move to the right
-                this.tank.body.velocity.x = 100;
-              };
-            });
 
             //  If the bullet is in flight we don't let them control anything
             if (this.bullet.exists)
@@ -191,7 +155,16 @@ socket.on('onJoin', function (data) {
                         //  Move to the right
                         socket.emit('move', {player: playerNum, direction: "right"});
                     }     
-                    
+                socket.on('playerMove', function (data) {
+                  console.log(data);
+                  //{player: data.player, move: data.direction}
+                  if (data.player == 1 && data.move == "left") { //  Move to the left
+                    this.tank.body.velocity.x = -100;
+                  };
+                  if (data.player == 1 && data.move == "right") { //  Move to the right
+                    this.tank.body.velocity.x = 100;
+                  };
+                });
                 }
                 if(this.ableToFire){
                     //  Allow them to set the power between 100 and 600
