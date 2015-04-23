@@ -32,16 +32,16 @@ app.listen(1234);
         socket.emit('updaterooms', rooms, socket.room);
     });
  	socket.on('hit', function(data) { //when a bullet hits a tank
-        
+
     });
  	socket.on('move', function(data) { //when a tank moves, send it to the opponent
-        
+
     });
  	socket.on('something', function(data) { //do stuff
-        
+
     });
  	socket.on('gameOver', function(data) { //Post who the winner is!
-        
+
     });
 
     socket.on('disconnect', function() {

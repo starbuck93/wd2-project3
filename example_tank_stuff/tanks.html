@@ -17,6 +17,8 @@
 
         this.tank = null;
         this.turret = null;
+        this.tank2 = null;
+        this.turret2 = null;
         this.flame = null;
         this.bullet = null;
 
@@ -52,6 +54,7 @@
         preload: function () {
 
             this.load.image('tank', 'assets/tank.png');
+            this.load.image('tank_rev', 'assets/tank_rev.png');
             this.load.image('turret', 'assets/turret.png');
             this.load.image('bullet', 'assets/bullet.png');
             this.load.image('background', 'assets/background.png');
@@ -96,6 +99,11 @@
 
             //  The turret which we rotate (offset 30x14 from the tank)
             this.turret = this.add.sprite(this.tank.x + 30, this.tank.y + 14, 'turret');
+
+            this.tank_rev = this.add.sprite(24, 383, 'tank_rev');
+            this.physics.arcade.enable(this.tank_rev);
+
+            this.turret_rev = this.add.sprite(this.tank_rev.x + 10, this.tank_rev.y + 14, 'turret');
 
             //  When we shoot this little flame sprite will appear briefly at the end of the turret
             this.flame = this.add.sprite(0, 0, 'flame');
@@ -198,6 +206,7 @@
 
 
             game.physics.arcade.collide(this.tank,this.ground);
+            game.physics.arcade.collide(this.tank_rev,this.ground);
 
             this.turret.x = this.tank.x+30;
             this.turret.y = this.tank.y+14;
