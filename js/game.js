@@ -139,10 +139,10 @@ socket.on('onJoin', function (data) {
                     //{player: data.player, move: data.direction}
                     if (data.player == 1 && data.move == "left") { //  Move to the left
                         thing.tank.body.velocity.x = -100;
-                    };
+                    }
                     else if (data.player == 1 && data.move == "right") { //  Move to the right
                         thing.tank.body.velocity.x = 100;
-                    };
+                    }
                     else this.tank.body.velocity.x = 0;
                 });
 
