@@ -41,14 +41,10 @@
     PhaserGame.prototype = {
 
         init: function () {
-
             this.game.renderer.renderSession.roundPixels = true;
-
             this.game.world.setBounds(0, 0, 992, 480);
-
             this.physics.startSystem(Phaser.Physics.ARCADE);
             this.physics.arcade.gravity.y = 200;
-
         },
 
         preload: function () {
@@ -61,9 +57,6 @@
             this.load.image('flame', 'assets/flame.png');
             this.load.image('target', 'assets/target.png');
             this.load.image('ground', 'assets/ground.png');
-
-            //  Note: Graphics from Amiga Tanx Copyright 1991 Gary Roberts
-
         },
 
         create: function () {
@@ -76,8 +69,6 @@
             this.ground.body.immovable = true;
 
 
-
-            //  Something to shoot at :)
             this.targets = this.add.group(this.game.world, 'targets', false, true, Phaser.Physics.ARCADE);
 
             this.targets.create(300, 390, 'target');
@@ -100,6 +91,7 @@
             //  The turret which we rotate (offset 30x14 from the tank)
             this.turret = this.add.sprite(this.tank.x + 30, this.tank.y + 14, 'turret');
 
+            // Player 2
             this.tank_rev = this.add.sprite(24, 383, 'tank_rev');
             this.physics.arcade.enable(this.tank_rev);
 
