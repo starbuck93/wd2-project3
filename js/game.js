@@ -140,9 +140,10 @@ socket.on('onJoin', function (data) {
                     if (data.player == 1 && data.move == "left") { //  Move to the left
                         thing.tank.body.velocity.x = -100;
                     };
-                    if (data.player == 1 && data.move == "right") { //  Move to the right
+                    else if (data.player == 1 && data.move == "right") { //  Move to the right
                         thing.tank.body.velocity.x = 100;
                     };
+                    else this.tank.body.velocity.x = 0;
                 });
 
             }
@@ -156,7 +157,6 @@ socket.on('onJoin', function (data) {
             else
             {
                 if(this.move){
-                    this.tank.body.velocity.x = 0;
                     if (this.cursor.left)
                     {
                         //  Move to the left
