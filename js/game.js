@@ -135,7 +135,7 @@ socket.on('onJoin', function (data) {
 
             function checkMove(thing){
                 socket.on('playerMove', function (data) {
-                    console.log(data);
+                    // console.log(data);
                     //{player: data.player, move: data.direction}
                     if (data.player == 1 && data.move == "left") { //  Move to the left
                         thing.tank.body.velocity.x = -100;

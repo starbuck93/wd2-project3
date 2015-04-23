@@ -33,7 +33,7 @@ app.listen(1234);
 
     });
  	socket.on('move', function(data) { //when a tank moves, send it to the opponent
-        console.log(data)
+        // console.log(data)
         //                         player number or name,       left or right
         socket.emit('playerMove', {player: data.player, move: data.direction});
 
