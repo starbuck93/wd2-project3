@@ -153,18 +153,19 @@ socket.on('onJoin', function (data) {
                     if (this.cursor.right)
                     {
                         //  Move to the right
-                        socket.emit('move', {player: playerNum, direction: "right"});
+                        this.tank.body.velocity.x = 100;
+                        // socket.emit('move', {player: playerNum, direction: "right"});
                     }     
-                socket.on('playerMove', function (data) {
-                  console.log(data);
-                  //{player: data.player, move: data.direction}
-                  if (data.player == 1 && data.move == "left") { //  Move to the left
-                    this.tank.body.velocity.x = -100;
-                  };
-                  if (data.player == 1 && data.move == "right") { //  Move to the right
-                    this.tank.body.velocity.x = 100;
-                  };
-                });
+                    socket.on('playerMove', function (data) {
+                      console.log(data);
+                      //{player: data.player, move: data.direction}
+                      if (data.player == 1 && data.move == "left") { //  Move to the left
+                        this.tank.body.velocity.x = -100;
+                      };
+                      if (data.player == 1 && data.move == "right") { //  Move to the right
+                        
+                      };
+                    });
                 }
                 if(this.ableToFire){
                     //  Allow them to set the power between 100 and 600
