@@ -17,8 +17,8 @@
 
         this.tank = null;
         this.turret = null;
-        this.tank2 = null;
-        this.turret2 = null;
+        this.tank_rev = null;
+        this.turret_rev = null;
         this.flame = null;
         this.bullet = null;
 
@@ -49,14 +49,14 @@
 
         preload: function () {
 
-            this.load.image('tank', 'assets/tank.png');
-            this.load.image('tank_rev', 'assets/tank_rev.png');
-            this.load.image('turret', 'assets/turret.png');
-            this.load.image('bullet', 'assets/bullet.png');
+            this.load.image('tank',       'assets/tank.png');
+            this.load.image('tank_rev',   'assets/tank_rev.png');
+            this.load.image('turret',     'assets/turret.png');
+            this.load.image('bullet',     'assets/bullet.png');
             this.load.image('background', 'assets/background.png');
-            this.load.image('flame', 'assets/flame.png');
-            this.load.image('target', 'assets/target.png');
-            this.load.image('ground', 'assets/ground.png');
+            this.load.image('flame',      'assets/flame.png');
+            this.load.image('target',     'assets/target.png');
+            this.load.image('ground',     'assets/ground.png');
         },
 
         create: function () {

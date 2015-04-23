@@ -13,6 +13,7 @@ socket.on('gameStart', function () {
 
 
    var player;
+   var playerNum = 1;
    var ground;
    var flagWaiting = true;
 
@@ -157,30 +158,38 @@ socket.on('onJoin', function (data) {
 
             game.physics.arcade.collide(ground, this.tank);
 
+
+            socket.on('playerMove', function (data) {
+              console.log(data);
+              //{player: data.player, move: data.direction}
+
+              if (data.player == 1 && data.move == "left") { //  Move to the left
+                this.tank.body.velocity.x = -100;
+              };
+              if (data.player == 1 && data.move == "right") { //  Move to the right
+                this.tank.body.velocity.x = 100;
+              };
+            });
+
             //  If the bullet is in flight we don't let them control anything
             if (this.bullet.exists)
             {
-
                 //  Bullet vs. the land
                 this.bulletVsLand();
             }
             else
             {
                 if(this.move){
-
                     this.tank.body.velocity.x = 0;
-
                     if (this.cursor.left)
                     {
                         //  Move to the left
-                        this.tank.body.velocity.x = -100;
-
+                        socket.emit('move', {player: playerNum, direction: "left"});
                     }
                     if (this.cursor.right)
                     {
                         //  Move to the right
-                        this.tank.body.velocity.x = 100;
-
+                        socket.emit('move', {player: playerNum, direction: "right"});
                     }     
                     
                 }
@@ -194,7 +203,6 @@ socket.on('onJoin', function (data) {
                     {
                         this.power += 2;
                     }
-
                     //  Allow them to set the angle, between -90 (straight up) and 0 (facing to the right)
                     else if (this.cursor.up && this.cannon.angle > -179)
                     {
@@ -204,7 +212,6 @@ socket.on('onJoin', function (data) {
                     {
                         this.cannon.angle++;
                     }
-
                 }
             }
         }
