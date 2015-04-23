@@ -143,31 +143,34 @@ socket.on('onJoin', function (data) {
                     else if (data.player == 1 && data.move == "right") { //  Move to the right
                         thing.tank.body.velocity.x = 100;
                     }
-                    else this.tank.body.velocity.x = 0;
+                    else if (data.player == 1 && data.move == "none") { //  Be still
+                        thing.tank.body.velocity.x = 0;
+                    };
                 });
 
             }
 
             //  If the bullet is in flight we don't let them control anything
-            if (this.bullet.exists)
-            {
+            if (this.bullet.exists) {
                 //  Bullet vs. the land
                 this.bulletVsLand();
             }
-            else
-            {
+            else {
                 if(this.move){
                     if (this.cursor.left)
                     {
                         //  Move to the left
                         socket.emit('move', {player: playerNum, direction: "left"});
                     }
-                    if (this.cursor.right)
+                    else if (this.cursor.right)
                     {
                         //  Move to the right
                         socket.emit('move', {player: playerNum, direction: "right"});
                     }
+                    else socket.emit('move', {player: playerNum, direction: "none"});
+                    
                     checkMove(this);  
+                    
                 }
                 if(this.ableToFire){
                     //  Allow them to set the power between 100 and 600
