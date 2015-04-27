@@ -12,6 +12,9 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <script >
+    var client = "<?php echo $_SESSION['username']; ?>";
+    </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TanksTanksTanks</title>
@@ -115,10 +118,11 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
       socket.on('connect', function(){
         socket.emit('username', {username: "<?php echo $_SESSION['username']; ?>"});      
-        socket.on('startGame', function(data){
-          if (data.people > 1) {game.state.start("play");};
       });
 
+      socket.on('startGame', function(data){
+          game.state.start("play");
+          console.log("The game should have started");
       });
     }
 

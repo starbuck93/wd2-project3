@@ -7,7 +7,7 @@ var app = require('http').createServer()
 , fs = require('fs')
 , io = require('socket.io').listen(app);
 
-var usernames = {};
+var usernames = [];
 var rooms = ['Lobby'];
 var people = 0;
 var players = {};
@@ -16,16 +16,12 @@ app.listen(1234);
  io.sockets.on('connection', function(socket) {
   socket.on('username', function (data){ //call this with the $username var in php
         // socket.username = username;
-        people += 1;
+        //socket.room = 'Lobby';         
+        usernames[people] = data.username;
+        people += 1;        
         console.log(people + " " + data.username + " join");
-        socket.room = 'Lobby';         
-        usernames[data.username] = data.username;
-        players[people] = data.username
-        socket.join('Lobby');          
-        socket.emit('addUsername',{username: data.username, people: people  });
-        socket.broadcast.to('Lobby').emit('onJoin', {people: people});
-        socket.emit('onJoin', {people: people});
         if (people > 1) {
+            socket.emit('addUsername',{usernames: usernames, people: people  });
             socket.emit('startGame', {people: people});
         };
     });
@@ -48,7 +44,5 @@ app.listen(1234);
     socket.on('disconnect', function() {
         people -= 1;
         console.log(people + " leave");
-        io.sockets.emit('updateusers', usernames);
-        socket.leave(socket.room);
     });
  });

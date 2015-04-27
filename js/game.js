@@ -1,19 +1,18 @@
 
-var socket = io('http://wd2.starbuckstech.com:1234');
-var username = '';
+var socket = io('http://104.130.213.180:1234');
+var playerN = '';
+var playerN2 = '';
+
 
 socket.on('addUsername', function (data) {
-  console.log(data.username + " " + data.people);
-  username = data.username + data.people;
+  playerN = data.usernames[0];
+  playerN2 = data.usernames[1];
 });
 
-socket.on('gameStart', function () {
-	console.log("blee");
-});
 
 
    var player;
-   var playerNum = 1;
+ //  var playerNum = 1;
    var ground;
    var flagWaiting = true;
 
@@ -26,7 +25,7 @@ socket.on('onJoin', function (data) {
   
 });
 
-    var Tank = function(index, game){
+    var Tank = function(playerName, index, game, x, y){
         this.cursor = {
             left:false,
             right:false,
@@ -41,13 +40,13 @@ socket.on('onJoin', function (data) {
             down:false
         }
 
-        this.username = username;
+        this.pName = playerName;
 
         this.game = game;
         this.move = true;
         this.ableToFire = false;
 
-        this.id = index;
+        this.playerNum = index;
          //  A single bullet that the tank will fire
         this.bullet = game.add.sprite(0, 0, 'bullet');
         this.bullet.exists = false;
@@ -55,7 +54,7 @@ socket.on('onJoin', function (data) {
 
 
 
-        this.tank = game.add.sprite(0,0, 'tank');
+        this.tank = game.add.sprite(x,y, 'tank');
         // scales in precentages
         this.tank.scale.x = .05;
         this.tank.scale.y = .075;
@@ -113,8 +112,14 @@ socket.on('onJoin', function (data) {
             this.move = !this.move;
             this.ableToFire = !this.ableToFire;
 
-            if(this.move)
+            if(this.move) {
+                if(client == player.pName) {
                 player.fire();
+                }
+                else {
+                    player2.fire();
+                }
+            }
         },
 
         /**
@@ -137,13 +142,13 @@ socket.on('onJoin', function (data) {
                 socket.on('playerMove', function (data) {
                     // console.log(data);
                     //{player: data.player, move: data.direction}
-                    if (data.player == 1 && data.move == "left") { //  Move to the left
+                    if (data.player == thing.playerNum && data.move == "left") { //  Move to the left
                         thing.tank.body.velocity.x = -100;
                     }
-                    else if (data.player == 1 && data.move == "right") { //  Move to the right
+                    else if (data.player == thing.playerNum && data.move == "right") { //  Move to the right
                         thing.tank.body.velocity.x = 100;
                     }
-                    else if (data.player == 1 && data.move == "none") { //  Be still
+                    else if (data.player == thing.playerNum && data.move == "none") { //  Be still
                         thing.tank.body.velocity.x = 0;
                     };
                 });
@@ -160,14 +165,14 @@ socket.on('onJoin', function (data) {
                     if (this.cursor.left)
                     {
                         //  Move to the left
-                        socket.emit('move', {player: playerNum, direction: "left"});
+                        socket.emit('move', {player: this.playerNum, direction: "left"});
                     }
                     else if (this.cursor.right)
                     {
                         //  Move to the right
-                        socket.emit('move', {player: playerNum, direction: "right"});
+                        socket.emit('move', {player: this.playerNum, direction: "right"});
                     }
-                    else socket.emit('move', {player: playerNum, direction: "none"});
+                    else socket.emit('move', {player: this.playerNum, direction: "none"});
                     
                     checkMove(this);  
                     
@@ -283,8 +288,8 @@ socket.on('onJoin', function (data) {
             ground.body.allowGravity = false;
             ground.boundsPadding = 0;
 
-            player = new Tank(0, this);
-            // player2 = new Tank(1, this);
+            player = new Tank(playerN, 0, this, 0, 0);
+            player2 = new Tank(playerN2, 1, this, 600, 0);
             // player2.position = (100,60);
 
             //  Used to display the power of the shot
@@ -293,17 +298,30 @@ socket.on('onJoin', function (data) {
             this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.powerText.fixedToCamera = true;
 
-			this.username = this.add.text(550, 8, player.username, { font: "18px Arial", fill: "#ffffff" });
-            this.username.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-            this.username.fixedToCamera = true;
-            this.username.align="right";
-
+    		if(client == player.pName) {	
+                this.pName = this.add.text(550, 8, player.pName, { font: "18px Arial", fill: "#ffffff" });
+                this.pName.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+                this.pName.fixedToCamera = true;
+                this.pName.align="right";
+            }
+            else {
+                this.pName = this.add.text(550, 8, player2.pName, { font: "18px Arial", fill: "#ffffff" });
+                this.pName.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+                this.pName.fixedToCamera = true;
+                this.pName.align="right";
+            }
 
             //  Some basic controls
             this.cursors = this.input.keyboard.createCursorKeys();
 			
             this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            this.fireButton.onDown.add(player.switchB, player);
+
+            if(client == player.pName) {
+                this.fireButton.onDown.add(player.switchB, player);
+            }
+            else {
+                this.fireButton.onDown.add(player2.switchB, player2);
+            }
 		},
 
 		
@@ -313,17 +331,29 @@ socket.on('onJoin', function (data) {
         	// 	game.world.remove(this.waitingText);
         	// }
 
-            player.cursor.left = this.cursors.left.isDown;
-            player.cursor.right = this.cursors.right.isDown;
-            player.cursor.up = this.cursors.up.isDown;
-            player.cursor.down = this.cursors.down.isDown;
+            if(client == player.pName) {   
+                player.cursor.left = this.cursors.left.isDown;
+                player.cursor.right = this.cursors.right.isDown;
+                player.cursor.up = this.cursors.up.isDown;
+                player.cursor.down = this.cursors.down.isDown;
+            }
+            else {
+                player2.cursor.left = this.cursors.left.isDown;
+                player2.cursor.right = this.cursors.right.isDown;
+                player2.cursor.up = this.cursors.up.isDown;
+                player2.cursor.down = this.cursors.down.isDown;
+            }
 
             player.update();
-            // player2.update();
+            player2.update();
 
             //  Update the text
-            this.powerText.text = 'Power: ' + player.power;
-
+            if(client == player.pName) {    
+                this.powerText.text = 'Power: ' + player.power;
+            }
+            else {
+                this.powerText.text = 'Power: ' + player2.power;
+            }
         }
 
     };
