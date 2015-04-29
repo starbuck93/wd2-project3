@@ -44,9 +44,9 @@ app.listen(1234);
 
     socket.on('disconnect', function() {
         delete usernames[socket.username];
-        console.log(usernames);
+        console.log("people still in the game:",usernames);
         people -= 1;
-        console.log(socket.username," Left");
+        console.log(socket.username,"Left");
         socket.broadcast.emit('someoneLeft',{playerCount:people});
     });
  });

@@ -126,8 +126,19 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
       socket.on('someoneLeft', function(data){
         if (data.playerCount < 2) {
-          game.state.start("menu");
           console.log("Let's get outta here");
+          var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
+          game.state.add("play", PhaserGame, true);
+          game.state.add('menu', menu, true);
+          game.state.start("menu");
+
+          // socket.on('connect', function(){
+          //   socket.emit('username', {username: "<?php echo $_SESSION['username']; ?>"});      
+          // });
+          // socket.on('startGame', function(data){
+          //   game.state.start("play");
+          //   console.log("The game should have started");
+          // });
         }
       });
 
