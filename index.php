@@ -123,5 +123,13 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         console.log("The game should have started");
       });
     }
+
+      socket.on('someoneLeft', function(data){
+        if (data.playerCount < 2) {
+          game.state.start("menu");
+          console.log("Let's get outta here");
+        }
+      });
+
   </script>
 </html>
