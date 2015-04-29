@@ -23,6 +23,7 @@ app.listen(1234);
         if (people > 1) {
             socket.emit('addUsername',{usernames: usernames, people: people  });
             socket.emit('startGame', {people: people});
+            console.log("Emmitted game start")
         };
     });
  	socket.on('hit', function(data) { //when a bullet hits a tank

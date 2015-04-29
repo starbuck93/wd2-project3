@@ -152,7 +152,6 @@ socket.on('onJoin', function (data) {
                         thing.tank.body.velocity.x = 0;
                     };
                 });
-
             }
 
             //  If the bullet is in flight we don't let them control anything
@@ -220,7 +219,6 @@ socket.on('onJoin', function (data) {
         create: function(){
 
             this.background = this.add.sprite(0,0, 'background');
-
 
             // this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
             // this.startB.anchor.setTo(0.5,0.5);
