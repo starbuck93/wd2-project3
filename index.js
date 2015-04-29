@@ -48,5 +48,6 @@ app.listen(1234);
         people -= 1;
         console.log(socket.username,"Left");
         socket.broadcast.emit('someoneLeft',{playerCount:people});
+        people = 0;
     });
  });

@@ -128,7 +128,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-          window.location.replace("http://wd2.starbuckstech.com/redirect");
+          window.location.replace("http://wd2.starbuckstech.com/wd2-project3/redirect.php");
         }
       });
 
