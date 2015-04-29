@@ -3,12 +3,12 @@ var socket = io('http://104.130.213.180:1234');
 var players = [];
 
 
-
+var i = 0;
 socket.on('addUsername', function (data) {
     for(var key in data.usernames){
-        var i = 0;
-        console.log(key,data.usernames[key]);
-        players[i] = data.usernames[key];
+        
+        console.log(i,key,data.usernames[key],client);
+        players[i] = key;
         i += 1;
     }
 
@@ -291,8 +291,8 @@ socket.on('onJoin', function (data) {
             ground.body.allowGravity = false;
             ground.boundsPadding = 0;
 
-            player = new Tank(player[0], 0, this, 0, 0);
-            player2 = new Tank(player[1], 1, this, 600, 0);
+            player = new Tank(players[0], 0, this, 0, 0);
+            player2 = new Tank(players[1], 1, this, 600, 0);
             // player2.position = (100,60);
 
             //  Used to display the power of the shot

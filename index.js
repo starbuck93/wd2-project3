@@ -44,6 +44,8 @@ app.listen(1234);
 
     socket.on('disconnect', function() {
         delete usernames[socket.username];
-        console.log("Disconnect was fired");
+        people -= 1;
+        console.log(socket.username," Left");
+        socket.broadcast.emit('someoneLeft',{user:socket.username})
     });
  });
