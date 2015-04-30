@@ -1,6 +1,4 @@
 //server.js
-
-
 // Require dependencies
 var clients = [];
 var app = require('http').createServer()

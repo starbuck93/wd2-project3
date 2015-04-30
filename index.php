@@ -1,13 +1,9 @@
 <?php
 session_start();
-
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -49,7 +45,6 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   <body>
 
     <div class="container">
-
       <!-- The justified navigation menu is meant for single line per list item.
            Multiple lines will require custom code not provided by Bootstrap. -->
       <div class="masthead">
