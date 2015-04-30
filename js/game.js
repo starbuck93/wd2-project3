@@ -15,6 +15,46 @@ socket.on('addUsername', function (data) {
 });
 
 
+    socket.on('opponentMove', function (data) {
+        if (player.pName == data.username) {
+            
+            player.cursor.left = this.cursors.left.isDown;
+            player.cursor.right = this.cursors.right.isDown;
+            player.cursor.up = this.cursors.up.isDown;
+            player.cursor.down = this.cursors.down.isDown;
+            // if (data.move == "left") {
+            //     console.log(player.pName,"Should be moving Left");
+            //     player.tank.x.velocity = -100;
+            // }
+            // if (data.move == "right") {
+            //     console.log(player.pName,"Should be moving Right");
+            //     player.tank.x.velocity = 100;
+            // }
+            // if (data.move == "none") {
+            //     player.tank.x.velocity = 0;
+            // }
+        }
+        else {
+            player2.cursor.left = this.cursors.left.isDown;
+            player2.cursor.right = this.cursors.right.isDown;
+            player2.cursor.up = this.cursors.up.isDown;
+            player2.cursor.down = this.cursors.down.isDown;
+
+            // if (data.move == "left") {
+            //     console.log(player2.pName,"Should be moving Left");
+            //     player2.tank.x.velocity = -100;
+            // }
+            // if (data.move == "right") {
+            //     console.log(player2.pName,"Should be moving Right");
+            //     player2.tank.x.velocity = 100;
+            // }
+            // if (data.move == "none") {
+            //     player2.tank.x.velocity = 0;
+            // }
+        }
+    });
+
+
 
    var player;
    // var playerNum = ;
@@ -347,39 +387,6 @@ socket.on('onJoin', function (data) {
                 player2.cursor.down = this.cursors.down.isDown;
             }
 
-
-            socket.on('opponentMove', function (data) {
-                console.log("opponentMove");
-                if (player.pName == data.username) {
-
-                    if (data.move == "left") {
-                        console.log(player.pName,"Should be moving Left");
-                        player.tank.x.velocity = -100;
-                    }
-                    if (data.move == "right") {
-                        console.log(player.pName,"Should be moving Right");
-                        player.tank.x.velocity = 100;
-                    }
-                    if (data.move == "none") {
-                        player.tank.x.velocity = 0;
-                    }
-                }
-                else {
-                    if (data.move == "left") {
-                        console.log(player2.pName,"Should be moving Left");
-                        player2.tank.x.velocity = -100;
-                    }
-                    if (data.move == "right") {
-                        console.log(player2.pName,"Should be moving Right");
-                        player2.tank.x.velocity = 100;
-                    }
-                    if (data.move == "none") {
-                        player2.tank.x.velocity = 0;
-                    }
-                }
-                
-
-            });
 
             player.update();
             player2.update();
