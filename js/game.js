@@ -1,5 +1,5 @@
 
-var socket = io('http://104.130.213.180:1234');
+var socket = io('http://wd.starbuckstech.com:1234');
 var players = [];
 
 
@@ -346,6 +346,34 @@ socket.on('onJoin', function (data) {
                 player2.cursor.up = this.cursors.up.isDown;
                 player2.cursor.down = this.cursors.down.isDown;
             }
+
+
+            socket.on('opponentMove', function (data) {
+                if (player.pName == data.username) {
+                    if (data.move == "left") {
+                        player.tank.x.velocity = -100;
+                    }
+                    if (data.move == "right") {
+                        player.tank.x.velocity = 100;
+                    }
+                    if (data.move == "none") {
+                        player.tank.x.velocity = 0;
+                    }
+                }
+                else {
+                    if (data.move == "left") {
+                        player2.tank.x.velocity = -100;
+                    }
+                    if (data.move == "right") {
+                        player2.tank.x.velocity = 100;
+                    }
+                    if (data.move == "none") {
+                        player2.tank.x.velocity = 0;
+                    }
+                }
+                
+
+            });
 
             player.update();
             player2.update();
