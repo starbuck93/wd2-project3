@@ -391,6 +391,13 @@ socket.on('onJoin', function (data) {
             player.update();
             player2.update();
 
+            socket.emit("sendAll", {playersX: [player.tank.x, player2.tank.x]});
+
+            socket.on("updateAll", function(data){
+                player.tank.x = data.playersX[0];
+                player2.tank.x = data.playersX[1];
+            });
+
             //  Update the text
             if(client == player.pName) {    
                 this.powerText.text = 'Power: ' + player.power;

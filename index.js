@@ -40,8 +40,8 @@ app.listen(1234);
         socket.emit('playerMove', {player: data.player, move: data.direction});
         socket.broadcast.to(id).emit('opponentMove', {player: socket.username, move: data.direction});
     });
- 	socket.on('something', function(data) { //do stuff
-
+ 	socket.on('sendAll', function(data) { //do stuff
+        socket.broadcast.emit('updateAll', data);
     });
  	socket.on('gameOver', function(data) { //Post who the winner is!
 
