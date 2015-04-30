@@ -349,11 +349,15 @@ socket.on('onJoin', function (data) {
 
 
             socket.on('opponentMove', function (data) {
+                console.log("opponentMove");
                 if (player.pName == data.username) {
+
                     if (data.move == "left") {
+                        console.log(player.pName,"Should be moving Left");
                         player.tank.x.velocity = -100;
                     }
                     if (data.move == "right") {
+                        console.log(player.pName,"Should be moving Right");
                         player.tank.x.velocity = 100;
                     }
                     if (data.move == "none") {
@@ -362,9 +366,11 @@ socket.on('onJoin', function (data) {
                 }
                 else {
                     if (data.move == "left") {
+                        console.log(player2.pName,"Should be moving Left");
                         player2.tank.x.velocity = -100;
                     }
                     if (data.move == "right") {
+                        console.log(player2.pName,"Should be moving Right");
                         player2.tank.x.velocity = 100;
                     }
                     if (data.move == "none") {
