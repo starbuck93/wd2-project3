@@ -31,7 +31,7 @@ app.listen(1234);
         // console.log(data)
         id = '';
         for(var key in usernames){
-            console.log(key,usernames[key],client);
+            console.log(key,usernames[key]);
             if (key != socket.username) {
                 id = usernames[key];
             }
