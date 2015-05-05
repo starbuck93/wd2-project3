@@ -29,16 +29,18 @@ app.listen(1234);
     });
  	socket.on('move', function(data) { //when a tank moves, send it to the opponent
         // console.log(data)
-        id = '';
+        /*id = '';
         for(var key in usernames){
             // console.log(key,usernames[key]);
             if (key != socket.username) {
                 id = usernames[key];
             }
-        }
+        }*/
         //                         player number or name,       left or right
         socket.emit('playerMove', {player: data.player, move: data.direction});
-        socket.broadcast.to(id).emit('opponentMove', {player: socket.username, move: data.direction});
+        socket.broadcast.emit('playermove', {player: data.player, move: data.direction});
+        //socket.emit('opponentMove', {player: socket.username, move: data.direction});
+        socket.broadcast.emit('opponentMove', {player: socket.username, move: data.direction});
     });
  	socket.on('sendAll', function(data) { //do stuff
         socket.broadcast.emit('updateAll', data);
