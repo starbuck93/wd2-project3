@@ -1,5 +1,5 @@
 
-var socket = io('http://wd2.starbuckstech.com:1234');
+var socket = io('http://104.130.213.180:1234');
 var players = [];
 
 
@@ -18,39 +18,33 @@ socket.on('addUsername', function (data) {
     socket.on('opponentMove', function (data) {
         if (player.pName == data.username) {
             
-            player.cursor.left = this.cursors.left.isDown;
-            player.cursor.right = this.cursors.right.isDown;
-            player.cursor.up = this.cursors.up.isDown;
-            player.cursor.down = this.cursors.down.isDown;
-            // if (data.move == "left") {
-            //     console.log(player.pName,"Should be moving Left");
-            //     player.tank.x.velocity = -100;
-            // }
-            // if (data.move == "right") {
-            //     console.log(player.pName,"Should be moving Right");
-            //     player.tank.x.velocity = 100;
-            // }
-            // if (data.move == "none") {
-            //     player.tank.x.velocity = 0;
-            // }
+            if (data.move == "left") {
+                console.log(player.pName,"Should be moving Left");
+                player.cursor.left = true;
+            }
+            if (data.move == "right") {
+                console.log(player.pName,"Should be moving Right");
+                player.cursor.right = true;
+            }
+            if (data.move == "none") {
+                player.cursor.left = false;
+                player.cursor.right = false;
+            }
         }
         else {
-            player2.cursor.left = this.cursors.left.isDown;
-            player2.cursor.right = this.cursors.right.isDown;
-            player2.cursor.up = this.cursors.up.isDown;
-            player2.cursor.down = this.cursors.down.isDown;
 
-            // if (data.move == "left") {
-            //     console.log(player2.pName,"Should be moving Left");
-            //     player2.tank.x.velocity = -100;
-            // }
-            // if (data.move == "right") {
-            //     console.log(player2.pName,"Should be moving Right");
-            //     player2.tank.x.velocity = 100;
-            // }
-            // if (data.move == "none") {
-            //     player2.tank.x.velocity = 0;
-            // }
+            if (data.move == "left") {
+                console.log(player2.pName,"Should be moving Left");
+                player2.cursor.left = true;
+            }
+            if (data.move == "right") {
+                console.log(player2.pName,"Should be moving Right");
+                player2.cursor.right = true;
+            }
+            if (data.move == "none") {
+                player2.cursor.left = false;
+                player2.cursor.right = false;
+            }
         }
     });
 
@@ -333,6 +327,7 @@ socket.on('onJoin', function (data) {
 
             player = new Tank(players[0], 0, this, 0, 0);
             player2 = new Tank(players[1], 1, this, 600, 0);
+            player2.cannon.angle = -179;
             // player2.position = (100,60);
 
             //  Used to display the power of the shot
@@ -391,12 +386,16 @@ socket.on('onJoin', function (data) {
             player.update();
             player2.update();
 
-            socket.emit("sendAll", {playersX: [player.tank.x, player2.tank.x]});
+            //socket.emit("sendAll", {playersX: [player.tank.x, player.cannon.angle, player2.tank.x, player2.cannon.angle]});
 
-            socket.on("updateAll", function(data){
+            /*socket.on("updateAll", function(data){
                 player.tank.x = data.playersX[0];
-                player2.tank.x = data.playersX[1];
-            });
+                player2.tank.x = data.playersX[2];
+                player.cannon.x = player.tank.x+8;
+                player2.cannon.x = player2.cannon.x;
+                player.cannon.angle = data.playersX[1];
+                player2.cannon.angle = data.playersX[3];
+            });*/
 
             //  Update the text
             if(client == player.pName) {    
