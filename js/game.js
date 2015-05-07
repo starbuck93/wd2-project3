@@ -11,7 +11,6 @@ socket.on('addUsername', function (data) {
         players[i] = key;
         i += 1;
     }
-
 });
 
 
@@ -101,7 +100,6 @@ socket.on('onJoin', function (data) {
         game.physics.arcade.enable(this.bullet);
 
 
-
         this.tank = game.add.sprite(x,y, 'tank');
         // scales in precentages
         this.tank.scale.x = .05;
@@ -169,12 +167,6 @@ socket.on('onJoin', function (data) {
                 }
             }
         },
-
-        /**
-         * Core update loop. Handles collision checks and player input.
-         *
-         * @method update
-         */
 
         update: function(){
 
@@ -251,20 +243,12 @@ socket.on('onJoin', function (data) {
 
             this.background = this.add.sprite(0,0, 'background');
 
-            // this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
-            // this.startB.anchor.setTo(0.5,0.5);
-
             this.waitingText = this.add.text(8, 40, 'Waiting for more players... Have one of your friends join', { font: "18px Arial", fill: "#ffffff" });
             this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.waitingText.fixedToCamera = true;
 
 
         },
-
-        // startClick: function(){
-
-        //     this.game.state.start('play');
-        // }
     };
 
 	

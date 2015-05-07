@@ -28,14 +28,10 @@ app.listen(1234);
 
     });
  	socket.on('move', function(data) { //when a tank moves, send it to the opponent
-        // console.log(data)
-
         var id = '';
         for(var key in usernames){
-            // console.log(key,usernames[key]);
             if (key != socket.username) {
                 id = usernames[key];
-                // console.log(id,key)
             }
         }
 
@@ -43,7 +39,6 @@ app.listen(1234);
         socket.broadcast.to(id).emit('opponentMove', {player: data.player, move: data.direction, x: data.x});
         //                         player number or name,       left or right
         socket.emit('playerMove', {player: data.player, move: data.direction});
-        // socket.broadcast.emit('playerMove', {player: data.player, move: data.direction});
         
     });
  	socket.on('sendAll', function(data) { //do stuff
@@ -56,9 +51,12 @@ app.listen(1234);
     socket.on('disconnect', function() {
         delete usernames[socket.username];
         console.log("people still in the game:",usernames);
-        people -= 1;
+        if (socket.username){
+            people -= 1;
+            socket.broadcast.emit('someoneLeft',{playerCount:people});
+            people = 0;
+        }
+        else console.log(socket.username,"is undefined");
         console.log(socket.username,"Left");
-        socket.broadcast.emit('someoneLeft',{playerCount:people});
-        people = 0;
     });
  });
