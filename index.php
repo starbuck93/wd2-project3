@@ -24,7 +24,7 @@ if(!$result){
 $rows = $result->num_rows;
 
 while($row = mysqli_fetch_assoc($result)){
-  if($row['objective'] == 'Playing Your First Game!' && !$row['status']){
+  if($row['objective'] == 'Play Your First Game' && !$row['status']){
     $flag = "true";
     $link->query("UPDATE achievements SET status = 1 WHERE user = '".$username."' and objective = '".$row['objective']."';");
   }
