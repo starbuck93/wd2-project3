@@ -3,15 +3,46 @@ session_start();
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
+
+$username=$_SESSION['username'];
+$flag = false;
+
+$link = new mysqli(getHost(), getUsername(), getPassword(), "tanks");
+
+$query = "SELECT * FROM achievements where user = '".$username."';";
+
+$result = $link->query($query);
+
+$rows = $result->num_rows;
+
+while($row = mysqli_fetch_assoc($result)){
+  if($row['objective'] == 'Playing Your First Game!' && !$row['status']){
+    $flag = true;
+    $link->query("UPDATE achievements SET status = 'true' WHERE user = '".$username."';");
+  }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
+
+
     <script >
     var client = "<?php echo $_SESSION['username']; ?>";
     var theWinner = '';
+    var alert = "<?php echo $flag; ?>";
+
+    if(alert){
+      alert("Playing Your First Game!");
+    }
     </script>
+
+
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TanksTanksTanks</title>
