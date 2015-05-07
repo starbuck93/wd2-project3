@@ -110,7 +110,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
 
       <footer class="footer">
-        <p>&copy; Company 2014</p>
+        <p>&copy; Company 2015</p>
+        <iframe src="https://ghbtns.com/github-btn.html?user=starbuck93&repo=wd2-project3&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
       </footer>
 
     </div> <!-- /container -->
@@ -138,12 +139,12 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-          window.location.replace("http://104.130.213.180/wd2-project3/redirect.php");
+          window.location.replace("http://.../wd2-project3/redirect.php");
         }
       });
       socket.on('refresh',function(){
         console.log('page should refresh');
-        window.location.replace("http:///wd2-project3/redirect.php");
+        window.location.replace("http://.../wd2-project3/redirect.php");
       });
       socket.on('gameIsOver', function(data){
         theWinner = data.winner;
