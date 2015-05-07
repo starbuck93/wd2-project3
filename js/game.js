@@ -1,5 +1,5 @@
 
-var socket = io('http://wd2.starbuckstech.com:1234');
+var socket = io('http://104.130.213.145:1234');
 var players = [];
 
 
