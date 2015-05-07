@@ -439,11 +439,13 @@ socket.on('onJoin', function (data) {
 
             if(player.points >= 10)
             {
+                destroyedTankOnce = 1;
                 socket.emit('gameOver', {winner: player.pName});
             }
 
             if(player2.points >= 10)
             {
+                destroyedTankOnce = 1;
                 socket.emit('gameOver', {winner: player2.pName});
             }
         }
@@ -479,6 +481,18 @@ gameOver.prototype = {
         this.winnerText = this.add.text(8, 8, 'The Winner is: ' + theWinner, { font: "18px Arial", fill: "#ffffff" });
         this.winnerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
         this.winnerText.fixedToCamera = true;
+
+        if(destroyedTankOnce == 1 && destroyedAchivement == "0"){        
+            this.destroyedTankText = this.add.text(8, 20, 'Achievemnt Unlocked! You destroyed a tank! ', { font: "18px Arial", fill: "#ffffff" });
+            this.destroyedTankText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.destroyedTankText.fixedToCamera = true;
+        }
+
+        if(firstShot == 1 && firstShotAchievement == "0"){
+            this.firstShotText = this.add.text(8, 40, 'Achievemnt Unlocked! You Shot! ', { font: "18px Arial", fill: "#ffffff" });
+            this.firstShotText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.firstShotText.fixedToCamera = true;
+        }
     },
     startGame: function(){
 

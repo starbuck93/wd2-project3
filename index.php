@@ -5,6 +5,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
 $username=$_SESSION['username'];
 $flag = false;
+$destroyedAchievement = 0;
+$shotAchievement = 0;
 
 include 'password.php';
 
@@ -28,6 +30,12 @@ while($row = mysqli_fetch_assoc($result)){
     $flag = "true";
     $link->query("UPDATE achievements SET status = 1 WHERE user = '".$username."' and objective = '".$row['objective']."';");
   }
+  if($row['objective'] == 'Destroy 1 Enemy Tank' && $row['status']){
+    $destroyedAchievement = 1;
+  }
+  if($row['objective'] == 'First Shot' && $row['status']){
+    $shotAchievement = 1;
+  }
 }
 
 
@@ -43,6 +51,10 @@ while($row = mysqli_fetch_assoc($result)){
     var client = "<?php echo $_SESSION['username']; ?>";
     var theWinner = '';
     var flag = "<?php echo $flag; ?>";
+    var firstShot = 0;
+    var destroyedTankOnce = 0;
+    var firstShotAchievement = "<?php echo $shotAchievement; ?>";
+    var destroyedAchievement = "<?php echo $destroyedAchievement; ?>";
     </script>
 
 
@@ -189,6 +201,7 @@ while($row = mysqli_fetch_assoc($result)){
     if(flag == "true"){
       alert("Playing Your First Game!");
     }
+
 
   </script>
 </html>
