@@ -50,6 +50,9 @@ app.listen(1234);
     socket.on('gameOver', function(data) { //Post who the winner is!
         socket.broadcast.emit('gameOver', data)
     });
+    socket.on('playAgain', function(){
+        socket.broadcast.emit('someoneLeft',{playerCount:people});
+    });
 
     socket.on('disconnect', function() {
         delete usernames[socket.username];

@@ -121,6 +121,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
       game.state.add("play", PhaserGame, true);
       game.state.add('menu', menu, true);
+      game.state.add('gameOver', gameOver, true);
       game.state.start("menu");
 
       socket.on('connect', function(){
@@ -138,6 +139,10 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
           // similar behavior as an HTTP redirect
           window.location.replace("http:///wd2-project3/redirect.php");
         }
+      });
+
+      socket.on('gameIsOver', function(data){
+        game.state.start('gameOver');
       });
 
   </script>

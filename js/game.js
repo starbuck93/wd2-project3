@@ -447,6 +447,7 @@ socket.on('onJoin', function (data) {
             {
                 socket.emit('gameOver', {winner: player.pName});
             }
+            
             if(player2.points >= 10)
             {
                 socket.emit('gameOver', {winner: player2.pName});
@@ -454,3 +455,43 @@ socket.on('onJoin', function (data) {
         }
 
     };
+
+
+
+
+var gameOver = function(game){
+
+    this.background = null;
+    this.game = game;
+    this.winner = null;
+
+
+    socket.on('gameIsOver', function(data){
+        this.winner = data.winner;
+    });
+};
+
+gameOver.prototype = {
+
+    preload: function(){
+
+        this.load.image('GameOver', 'images/GameOver.png');
+        this.load.image('button', 'images/button.png');
+    },
+
+    create: function(){
+
+        this.background = this.add.sprite(0,0, 'GameOver');
+        this.button = this.add.button(this.game.world.centerX, this.game.world.centerY, 'button', this.startGame);
+        this.button.scale.x = .3;
+        this.button.scale.y = .3;
+
+        this.winnerText = this.add.text(8, 8, 'The Winner is: ' + this.winner, { font: "18px Arial", fill: "#ffffff" });
+        this.winnerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+        this.winnerText.fixedToCamera = true;
+    },
+    startGame: function(){
+
+        socket.emit('playAgain');
+    }
+}
