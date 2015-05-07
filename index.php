@@ -8,10 +8,18 @@ $username=$_SESSION['username'];
 $flag = false;
 
 $link = new mysqli(getHost(), getUsername(), getPassword(), "tanks");
+if ($link->connect_errno) {
+  printf("Connect failed: %s\n", $link->connect_error);
+  exit();
+}
 
-$query = "SELECT * FROM achievements where user = '".$username."';";
+$query = "SELECT * FROM achievements where user = '".$username."'";
 
 $result = $link->query($query);
+if(!$result){ 
+  $error = $link->error;
+  die($link->error);
+}
 
 $rows = $result->num_rows;
 
