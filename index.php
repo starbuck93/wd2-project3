@@ -138,8 +138,12 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-          window.location.replace("http:///wd2-project3/redirect.php");
+          window.location.replace("http://104.130.213.180/wd2-project3/redirect.php");
         }
+      });
+      socket.on('refresh',function(){
+        console.log('page should refresh');
+        window.location.replace("http:///wd2-project3/redirect.php");
       });
       socket.on('gameIsOver', function(data){
         theWinner = data.winner;

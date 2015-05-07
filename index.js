@@ -52,7 +52,9 @@ app.listen(1234);
         socket.emit('gameIsOver', data)
     });
     socket.on('playAgain', function(){
-        socket.broadcast.emit('someoneLeft',{playerCount:people});
+        console.log('playAgain');
+        socket.emit('refresh');
+        socket.broadcast.emit('refresh');
     });
 
     socket.on('disconnect', function() {

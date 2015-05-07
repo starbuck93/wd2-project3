@@ -471,7 +471,8 @@ gameOver.prototype = {
     create: function(){
 
         this.background = this.add.sprite(0,0, 'GameOver');
-        this.button = this.add.button(this.game.world.centerX, this.game.world.centerY, 'button', this.startGame);
+        this.button = this.add.button(this.game.world.centerX-10, this.game.world.centerY-15, 'button', this.startGame, this);
+        this.button.anchor.setTo(0.5, 0.5);
         this.button.scale.x = .3;
         this.button.scale.y = .3;
 
@@ -482,5 +483,6 @@ gameOver.prototype = {
     startGame: function(){
 
         socket.emit('playAgain');
+        console.log("client wants to play again!");
     }
 }
