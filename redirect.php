@@ -1,3 +1,3 @@
 <?php
-header('Location: http://wd2.starbuckstech.com/wd2-project3');
+header('Location: http://104.130.213.145/wd2-project3');
 ?>

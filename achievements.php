@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'password.php';
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
@@ -21,25 +22,11 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <script type="text/javascript" src="js/game.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <style>
-      div.chat_box {
-        background: #ccc none repeat scroll 0 0;
-        border: 3px solid #666;
-        margin-bottom: 5px;
-        /*padding: 5px;*/
-        position: relative;
-        width: 200px;
-        height: 100px;
-        overflow: auto;
-      }
-      /*p {
-        margin: 10px;
-        padding: 5px;
-        border: 2px solid #666;
-        width: 1000px;
-        height: 1000px;
-      }*/
-  </style>
+    <!-- this makes the glyphs work -->
+    <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    
+
+    
   </head>
 
   <body>
@@ -63,8 +50,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Lobby <span class="sr-only">(current)</span></a></li>
-                <li><a href="achievements.php">Achievements</a></li>
+                <li><a href="index.php">Lobby <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="achievements.php">Achievements</a></li>
                 <?php if($signedIn) { ?> <li><a href="chat.php">Chat</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="login.php">Login</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="register.php">Register</a></li> <?php } ?>
@@ -88,8 +75,55 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else {?>
 
-      <div id='game'></div>   
-      <?php } ?>
+      <h1>Here are your achievements <?php echo "".$_SESSION['username']."" ?></h1> <br>
+
+
+      <!-- <span class="label label-default" style="font-size: 40px;">Default</span> <br>
+      <span class="label label-primary">Primary</span> <br>
+      <span class="label label-success">Success</span> <br>
+      <span class="label label-info">Info</span> <br>
+      <span class="label label-warning">Warning</span> <br>
+      <span class="label label-danger">Danger</span> <br> -->
+
+      
+      <?php 
+
+      $link = new mysqli(getHost(),getUsername(),getPassword(),"tanks"); /*for local testing only*/
+      if ($link->connect_errno) {
+        printf("Connect failed: %s\n", $link->connect_error);
+        exit();
+      }
+
+      $result = $link->query("SELECT a.* FROM achievements a INNER JOIN login l ON l.username = a.user WHERE a.user = '".$$_SESSION['username']."'");
+
+      $something = FALSE;
+
+      for ($row = mysqli_fetch_array($result)) {
+        
+        if ($row['bool'])
+        {
+          // echo '<span class="label label-success" style="font-size: 25px;">Default</span> <br> <br>';
+
+          echo '<div class="alert alert-danger" role="alert">';
+          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
+          echo $row['objective'];
+          echo '</div>';
+        }
+
+        else
+        {
+          // echo '<span class="label label-danger" style="font-size: 25px;">Default</span> <br> <br>'; 
+
+          echo '<div class="alert alert-danger" role="alert">';
+          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
+          echo $row['objective'];
+          echo '</div>';
+        }
+      } 
+      ?>
+
+
+      <?php } ?> <!-- END ELSE STATEMENT  -->
 
 
       <footer class="footer">
@@ -120,11 +154,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-<<<<<<< HEAD
-          window.location.replace("http://wd2.starbuckstech.com/wd2-project3/redirect.php");
-=======
           window.location.replace("http://104.130.213.145/wd2-project3/redirect.php");
->>>>>>> a4fa562ca14d810148378eba6588e5a7d014d4a1
         }
       });
 

@@ -7,7 +7,7 @@ function getUsername()
 
 function getPassword()
 {
-	return '';
+	return 'we1server';
 }
 
 function getHost()
