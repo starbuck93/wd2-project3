@@ -1,5 +1,8 @@
 
-var socket = io('http://104.130.213.145:1234');
+var socket = io('http://104.130.213.180:1234');
+
+//var socket = io('http://104.130.213.145:1234');
+
 var players = [];
 
 
@@ -11,7 +14,6 @@ socket.on('addUsername', function (data) {
         players[i] = key;
         i += 1;
     }
-
 });
 
 
@@ -58,6 +60,14 @@ socket.on('addUsername', function (data) {
     });
 
 
+socket.on('enemyFired', function(data){
+    if(data.player == player.pName){
+        player.fire();
+    }
+    else{
+        player2.fire();
+    }
+});
 
    var player;
    // var playerNum = ;
@@ -101,7 +111,6 @@ socket.on('onJoin', function (data) {
         game.physics.arcade.enable(this.bullet);
 
 
-
         this.tank = game.add.sprite(x,y, 'tank');
         // scales in precentages
         this.tank.scale.x = .05;
@@ -138,6 +147,8 @@ socket.on('onJoin', function (data) {
                 return;
             }
 
+            socket.emit('someoneFired', {player: this.pName});
+
             //  Re-position the bullet where the cannon is
             this.bullet.reset(this.cannon.x, this.cannon.y);
 
@@ -169,12 +180,6 @@ socket.on('onJoin', function (data) {
                 }
             }
         },
-
-        /**
-         * Core update loop. Handles collision checks and player input.
-         *
-         * @method update
-         */
 
         update: function(){
 
@@ -251,20 +256,12 @@ socket.on('onJoin', function (data) {
 
             this.background = this.add.sprite(0,0, 'background');
 
-            // this.startB = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
-            // this.startB.anchor.setTo(0.5,0.5);
-
             this.waitingText = this.add.text(8, 40, 'Waiting for more players... Have one of your friends join', { font: "18px Arial", fill: "#ffffff" });
             this.waitingText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.waitingText.fixedToCamera = true;
 
 
         },
-
-        // startClick: function(){
-
-        //     this.game.state.start('play');
-        // }
     };
 
 	
@@ -369,7 +366,6 @@ socket.on('onJoin', function (data) {
                 player2.cursor.up = this.cursors.up.isDown;
                 player2.cursor.down = this.cursors.down.isDown;
             }
-
 
             player.update();
             player2.update();

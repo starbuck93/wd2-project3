@@ -21,7 +21,26 @@ if (isset($_POST['submit'])) {
     $password = mysqli_real_escape_string($link,stripslashes($password));
     $password = md5($password);
     // SQL query to fetch information of registerd users and finds user match.
-    $query = "INSERT INTO `login`(`name`, `username`, `email`, `password`) VALUES ('".$name."','".$username."','".$email."','".$password."');";
+    $query = "INSERT INTO `login`(`name`, `username`, `email`, `password`) VALUES ('".$name."','".$username."','".$email."','".$password."')";
+    
+    $query2 = "INSERT INTO `achievements` (`user`, `objective`, `status`,`id`) VALUES 
+                ('".$username."', 'Playing Your First Game!', FALSE, 1),
+                ('".$username."', 'Played 100 games!', FALSE, 2),
+                ('".$username."', 'Shot 500 times!', FALSE, 3),
+                ('".$username."', 'Played 200 games!', FALSE, 4),
+                ('".$username."', 'Destroyed 100 enemy tanks!', FALSE, 5),
+                ('".$username."', 'Shot 1000 times!', FALSE, 6),
+                ('".$username."', 'Destroyed 500 enemey tanks!', FALSE, 7),
+                ('".$username."', 'Shot once!', FALSE, 8),
+                ('".$username."', 'Drive 100 miles!', FALSE, 9),
+                ('".$username."', 'Drive 500 miles!', FALSE, 10)";
+    
+    $result = $link->query($query2);
+    if(!$result) {
+      $error = $link->error;
+      die();
+    }
+    
     $result = $link->query($query);
     if(!$result) {
       $error = $link->error;
@@ -37,7 +56,19 @@ if (isset($_POST['submit'])) {
     }
 }
 
-
+/*INSERT INTO 'achievements' ('user', 'objective', 'done') VALUES 
+                ('".$username."', 'Playing Your First Game!', 'false'),
+                ('".$username."', 'Played 100 games!', 'false'),
+                ('".$username."', 'Shot 500 times!', 'false'),
+                ('".$username."', 'Played 200 games!', 'false'),
+                ('".$username."', 'Destroyed 100 enemy tanks!', 'false'),
+                ('".$username."', 'Shot 1000 times!', 'false'),
+                ('".$username."', 'Destroyed 500 enemey tanks!', 'false'),
+                ('".$username."', 'Shot once!', 'false'),
+                ('".$username."', 'Drive 100 miles!', 'false'),
+                ('".$username."', 'Drive 500 miles!', 'false'),
+              ;
+*/
 ?>
 
 

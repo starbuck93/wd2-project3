@@ -18,7 +18,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/justified-nav.css" rel="stylesheet">
     <script type="text/javascript" src="js/phaser.js"></script>
-    <script src="socket.io.js"></script>
+    <!-- <script src="socket.io.js"></script> -->
     <script type="text/javascript" src="js/game.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -75,29 +75,41 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else {?>
 
-      <h1>Here are your achievements <?php echo "".$_SESSION['username']."" ?></h1> <br>
-
-
-      <!-- <span class="label label-default" style="font-size: 40px;">Default</span> <br>
-      <span class="label label-primary">Primary</span> <br>
-      <span class="label label-success">Success</span> <br>
-      <span class="label label-info">Info</span> <br>
-      <span class="label label-warning">Warning</span> <br>
-      <span class="label label-danger">Danger</span> <br> -->
-
-      
+      <h1>Here are your achievements <?php echo "".$_SESSION['username'].""; ?></h1> <br>
+   
       <?php 
+      
+      $username=$_SESSION['username'];
 
-      $something = TRUE;
+      // Establishing Connection with Server by passing server_name, user_id and password as a parameter
+      $link = new mysqli(getHost(),getUsername(),getPassword(),"tanks"); /*for local testing only*/
+      if ($link->connect_errno) {
+        printf("Connect failed: %s\n", $link->connect_error);
+        exit();
+      }
 
-      for ($x = 0; $x <= 10; $x++) {
-        
-        if ($something == TRUE)
+      // To protect MySQL injection for Security purpose
+      $username = mysqli_real_escape_string($link,stripslashes($username));
+      
+      // SQL query to fetch information of registerd users and finds user match.
+      $query = "SELECT * from achievements where user='".$username."'";
+      
+      $result = $link->query($query);
+      if(!$result){ 
+        $error = $link->error;
+        die($link->error);
+      }
+      $rows = $result->num_rows;
+      
+      while ($row = mysqli_fetch_assoc($result)) {
+
+        // if ($row['bool'])
+        if ($row['status'] == TRUE)
         {
           // echo '<span class="label label-success" style="font-size: 25px;">Default</span> <br> <br>';
 
           echo '<div class="alert alert-success" role="alert" style="font-size: 20px;">';
-          echo ' &#x2714;  Enter a valid email address';
+          echo ' &#x2714;  '.$row['objective'].'';
           echo '</div>';
         }
 
@@ -105,11 +117,15 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         {
           // echo '<span class="label label-danger" style="font-size: 25px;">Default</span> <br> <br>'; 
 
+
           echo '<div class="alert alert-danger" role="alert" style="font-size: 20px;">';
-          echo ' &#x2716;  Enter a valid email address';
+          echo ' &#x2716;  '.$row['objective'].'';
           echo '</div>';
         }
-      } 
+      }
+      
+
+      mysqli_close($link); // Closing Connection
       ?>
 
 

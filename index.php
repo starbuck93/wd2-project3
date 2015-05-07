@@ -89,9 +89,6 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <?php } else {?>
 
       <div id='game'></div>   
-
-      <h3>Chat</h3>  
-        <iframe src="http://wd2.starbuckstech.com:3000/" width="640" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
       <?php } ?>
 
 
@@ -123,7 +120,11 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
+<<<<<<< HEAD
+          window.location.replace("http://wd2.starbuckstech.com/wd2-project3/redirect.php");
+=======
           window.location.replace("http://104.130.213.145/wd2-project3/redirect.php");
+>>>>>>> a4fa562ca14d810148378eba6588e5a7d014d4a1
         }
       });
 
