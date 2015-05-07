@@ -43,7 +43,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 <li><a href="index.php">Lobby <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Rankings</a></li>
+                <li><a href="achievements.php">Achievements</a></li>
                 <?php if($signedIn) { ?> <li class="active"><a href="#">Chat</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="login.php">Login</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="register.php">Register</a></li> <?php } ?>

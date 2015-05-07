@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'password.php';
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
@@ -21,25 +22,11 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <script type="text/javascript" src="js/game.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <style>
-      div.chat_box {
-        background: #ccc none repeat scroll 0 0;
-        border: 3px solid #666;
-        margin-bottom: 5px;
-        /*padding: 5px;*/
-        position: relative;
-        width: 200px;
-        height: 100px;
-        overflow: auto;
-      }
-      /*p {
-        margin: 10px;
-        padding: 5px;
-        border: 2px solid #666;
-        width: 1000px;
-        height: 1000px;
-      }*/
-  </style>
+    <!-- this makes the glyphs work -->
+    <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    
+
+    
   </head>
 
   <body>
@@ -63,8 +50,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Lobby <span class="sr-only">(current)</span></a></li>
-                <li><a href="achievements.php">Achievements</a></li>
+                <li><a href="index.php">Lobby <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="achievements.php">Achievements</a></li>
                 <?php if($signedIn) { ?> <li><a href="chat.php">Chat</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="login.php">Login</a></li> <?php } ?>
                 <?php if(!$signedIn) { ?> <li><a href="register.php">Register</a></li> <?php } ?>
@@ -88,11 +75,47 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else {?>
 
-      <div id='game'></div>   
+      <h1>Here are your achievements <?php echo "".$_SESSION['username']."" ?></h1> <br>
 
-      <h3>Chat</h3>  
-        <iframe src="http://wd2.starbuckstech.com:3000/" width="640" height="480" scrolling="no" class="iframe-class" frameborder="0">Whoops, Adam needs to start the chat server and/or figure out how to make it work</iframe>
-      <?php } ?>
+
+      <!-- <span class="label label-default" style="font-size: 40px;">Default</span> <br>
+      <span class="label label-primary">Primary</span> <br>
+      <span class="label label-success">Success</span> <br>
+      <span class="label label-info">Info</span> <br>
+      <span class="label label-warning">Warning</span> <br>
+      <span class="label label-danger">Danger</span> <br> -->
+
+      
+      <?php 
+
+      $something = FALSE;
+
+      for ($x = 0; $x <= 10; $x++) {
+        
+        if ($something == TRUE)
+        {
+          // echo '<span class="label label-success" style="font-size: 25px;">Default</span> <br> <br>';
+
+          echo '<div class="alert alert-danger" role="alert">';
+          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
+          echo 'Enter a valid email address';
+          echo '</div>';
+        }
+
+        else
+        {
+          // echo '<span class="label label-danger" style="font-size: 25px;">Default</span> <br> <br>'; 
+
+          echo '<div class="alert alert-danger" role="alert">';
+          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
+          echo 'Enter a valid email address';
+          echo '</div>';
+        }
+      } 
+      ?>
+
+
+      <?php } ?> <!-- END ELSE STATEMENT  -->
 
 
       <footer class="footer">

@@ -1,5 +1,8 @@
 
 var socket = io('http://104.130.213.180:1234');
+
+//var socket = io('http://104.130.213.145:1234');
+
 var players = [];
 
 
