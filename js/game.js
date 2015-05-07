@@ -1,5 +1,5 @@
 
-var socket = io('http://:1234');
+var socket = io('http://104.130.213.180:1234');
 
 var players = [];
 
@@ -482,16 +482,18 @@ gameOver.prototype = {
         this.winnerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
         this.winnerText.fixedToCamera = true;
 
-        if(destroyedTankOnce == 1 && destroyedAchivement == "0"){        
-            this.destroyedTankText = this.add.text(8, 20, 'Achievemnt Unlocked! You destroyed a tank! ', { font: "18px Arial", fill: "#ffffff" });
+        if(destroyedAchievement == "0"){        
+            this.destroyedTankText = this.add.text(8, 25, 'Achievemnt Unlocked! You destroyed a tank! ', { font: "18px Arial", fill: "#ffffff" });
             this.destroyedTankText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.destroyedTankText.fixedToCamera = true;
+            console.log(destroyedAchievement);
         }
 
-        if(firstShot == 1 && firstShotAchievement == "0"){
-            this.firstShotText = this.add.text(8, 40, 'Achievemnt Unlocked! You Shot! ', { font: "18px Arial", fill: "#ffffff" });
+        if(firstShotAchievement == "0"){
+            this.firstShotText = this.add.text(8, 45, 'Achievemnt Unlocked! You Shot! ', { font: "18px Arial", fill: "#ffffff" });
             this.firstShotText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.firstShotText.fixedToCamera = true;
+            console.log(firstShotAchievement);
         }
     },
     startGame: function(){

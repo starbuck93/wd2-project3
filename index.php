@@ -33,8 +33,14 @@ while($row = mysqli_fetch_assoc($result)){
   if($row['objective'] == 'Destroy 1 Enemy Tank' && $row['status']){
     $destroyedAchievement = 1;
   }
+  elseif($row['objective'] == 'Destroy 1 Enemy Tank' && !$row['status']){
+    $link->query("UPDATE achievements SET status = 1 WHERE user = '".$username."' and objective = '".$row['objective']."';");
+  }
   if($row['objective'] == 'First Shot' && $row['status']){
     $shotAchievement = 1;
+  }
+  elseif($row['objective'] == 'First Shot' && !$row['status']){
+    $link->query("UPDATE achievements SET status = 1 WHERE user = '".$username."' and objective = '".$row['objective']."';");
   }
 }
 
@@ -51,8 +57,6 @@ while($row = mysqli_fetch_assoc($result)){
     var client = "<?php echo $_SESSION['username']; ?>";
     var theWinner = '';
     var flag = "<?php echo $flag; ?>";
-    var firstShot = 0;
-    var destroyedTankOnce = 0;
     var firstShotAchievement = "<?php echo $shotAchievement; ?>";
     var destroyedAchievement = "<?php echo $destroyedAchievement; ?>";
     </script>
@@ -186,12 +190,12 @@ while($row = mysqli_fetch_assoc($result)){
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-          window.location.replace("http://.../wd2-project3/redirect.php");
+          window.location.replace("http://104.130.213.180/wd2-project3/redirect.php");
         }
       });
       socket.on('refresh',function(){
         console.log('page should refresh');
-        window.location.replace("http://.../wd2-project3/redirect.php");
+        window.location.replace("http://104.130.213.180/wd2-project3/redirect.php");
       });
       socket.on('gameIsOver', function(data){
         theWinner = data.winner;
