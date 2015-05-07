@@ -3,16 +3,16 @@ session_start();
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
-
 $username=$_SESSION['username'];
 $flag = false;
+
+include 'password.php';
 
 $link = new mysqli(getHost(), getUsername(), getPassword(), "tanks");
 if ($link->connect_errno) {
   printf("Connect failed: %s\n", $link->connect_error);
-  exit();
+  exit(); 
 }
-
 $query = "SELECT * FROM achievements where user = '".$username."'";
 
 $result = $link->query($query);
@@ -25,8 +25,8 @@ $rows = $result->num_rows;
 
 while($row = mysqli_fetch_assoc($result)){
   if($row['objective'] == 'Playing Your First Game!' && !$row['status']){
-    $flag = true;
-    $link->query("UPDATE achievements SET status = 'true' WHERE user = '".$username."';");
+    $flag = "true";
+    $link->query("UPDATE achievements SET status = 1 WHERE user = '".$username."' and objective = '".$row['objective']."';");
   }
 }
 
@@ -39,14 +39,10 @@ while($row = mysqli_fetch_assoc($result)){
 
 
 
-    <script >
+    <script type="text/javascript">
     var client = "<?php echo $_SESSION['username']; ?>";
     var theWinner = '';
-    var alert = "<?php echo $flag; ?>";
-
-    if(alert){
-      alert("Playing Your First Game!");
-    }
+    var flag = "<?php echo $flag; ?>";
     </script>
 
 
@@ -189,6 +185,10 @@ while($row = mysqli_fetch_assoc($result)){
         theWinner = data.winner;
         game.state.start('gameOver');
       });
+
+    if(flag == "true"){
+      alert("Playing Your First Game!");
+    }
 
   </script>
 </html>
