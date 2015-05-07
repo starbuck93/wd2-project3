@@ -272,7 +272,6 @@ socket.on('onJoin', function (data) {
         preload: function(){
 
             this.load.image('background', 'images/menuBackground.jpg');
-            this.load.image('startButton', 'images/startButton.png');
 
         },
 
