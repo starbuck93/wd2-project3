@@ -14,7 +14,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TanksTanksTanks</title>
+    <title>Tanks Lobby</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/justified-nav.css" rel="stylesheet">
     <script type="text/javascript" src="js/phaser.js"></script>
@@ -49,7 +49,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <!-- The justified navigation menu is meant for single line per list item.
            Multiple lines will require custom code not provided by Bootstrap. -->
       <div class="masthead">
-        <h3>wd2-project3</h3>
+        <h3>Tanks Main Game</h3>
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
@@ -59,7 +59,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">TANKSSSS</a>
+              <a class="navbar-brand" href="#">TANKS</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -82,8 +82,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <?php if(!$signedIn) { ?>
       <!-- Jumbotron -->
       <div class="jumbotron">
-        <h1>TanksTanksTanks</h1>
-        <p class="lead">Tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks tanks</p>
+        <h1>Tanks</h1>
+        <p class="lead">A Multiplayer Tank Battle Game. Invite Your Friends and Play Now!</p>
         <br>
         <p><a class="btn btn-lg btn-success" href="login.php" role="button">Sign In or Register Now to Play!</a></p>
       </div>

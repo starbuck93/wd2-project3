@@ -55,7 +55,7 @@ else
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          
         <meta charset="utf-8">
-        <title>TanksTanksTanks Login</title>
+        <title>Tanks Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         

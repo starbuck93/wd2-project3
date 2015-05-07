@@ -81,7 +81,8 @@ CREATE TABLE IF NOT EXISTS `achievements` (
 `user` varchar(100) NOT NULL,
 `objective` varchar(300) NOT NULL,
 `status` boolean NOT NULL,
-`id` int(3) NOT NULL
+`id` int(3) NOT NULL,
+`value` int(5) NOT NULL
 );
 
 ALTER TABLE `achievements`

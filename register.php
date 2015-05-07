@@ -23,17 +23,17 @@ if (isset($_POST['submit'])) {
     // SQL query to fetch information of registerd users and finds user match.
     $query = "INSERT INTO `login`(`name`, `username`, `email`, `password`) VALUES ('".$name."','".$username."','".$email."','".$password."')";
     
-    $query2 = "INSERT INTO `achievements` (`user`, `objective`, `status`,`id`) VALUES 
-                ('".$username."', 'Playing Your First Game!', FALSE, 1),
-                ('".$username."', 'Played 100 games!', FALSE, 2),
-                ('".$username."', 'Shot 500 times!', FALSE, 3),
-                ('".$username."', 'Played 200 games!', FALSE, 4),
-                ('".$username."', 'Destroyed 100 enemy tanks!', FALSE, 5),
-                ('".$username."', 'Shot 1000 times!', FALSE, 6),
-                ('".$username."', 'Destroyed 500 enemey tanks!', FALSE, 7),
-                ('".$username."', 'Shot once!', FALSE, 8),
-                ('".$username."', 'Drive 100 miles!', FALSE, 9),
-                ('".$username."', 'Drive 500 miles!', FALSE, 10)";
+    $query2 = "INSERT INTO `achievements` (`user`, `objective`, `status`,`id`,`value`) VALUES 
+                ('".$username."', 'First Shot', FALSE, 1, 0),
+                ('".$username."', 'Play Your First Game', FALSE, 2, 0),
+                ('".$username."', 'Destroy 1 Enemy Tank', FALSE, 3, 0),
+                ('".$username."', 'Shot 50 Times', FALSE, 4, 0),
+                ('".$username."', 'Played 100 Games', FALSE, 5, 0),
+                ('".$username."', 'Shot 1000 Times', FALSE, 6, 0),
+                ('".$username."', 'Played 200 Games', FALSE, 7, 0),
+                ('".$username."', 'Drive 100 Miles', FALSE, 8, 0),
+                ('".$username."', 'Destroyed 500 Enemy Tanks', FALSE, 9, 0),
+                ('".$username."', 'Drive 500 Miles', FALSE, 10, 0)";
     
     $result = $link->query($query2);
     if(!$result) {
