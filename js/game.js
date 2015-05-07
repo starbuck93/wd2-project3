@@ -15,6 +15,10 @@ socket.on('addUsername', function (data) {
 });
 
 
+    socet.on('gameIsOver', function (data){
+
+    });
+
     socket.on('opponentMove', function (data) {
         if (player.pName && (player.pName == data.player)) {
             if (data.x && (player.tank.x != data.x) && (data.x != player2.tank.x)){
@@ -438,13 +442,14 @@ socket.on('onJoin', function (data) {
 
             this.pointsText.text = "Player 1 points: " + player.points;
             this.points2Text.text = "Player 2 points: " + player2.points;
+
             if(player.points >= 10)
             {
-                socket.emit('gameOver', {winner: player});
+                socket.emit('gameOver', {winner: player.pName});
             }
             if(player2.points >= 10)
             {
-                socket.emit('gameOver', {winner: player2});
+                socket.emit('gameOver', {winner: player2.pName});
             }
         }
 

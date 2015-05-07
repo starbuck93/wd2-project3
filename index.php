@@ -88,7 +88,23 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else {?>
 
-      <div id='game'></div>   
+      <div class="row">
+        <div class="col-md-7">
+          <div id='game'></div>  
+        </div>
+        <div class="col-md-5">
+          <h2>How to play:</h2>
+          <h4>Hit your opponent to get 10 points before they do!</h4>
+          <h4>The more you play, the better you'll get and the more points you need to win!</h4>
+          <h3>Controls:</h3>
+          <img src="space.png" width="150px" style="margin-left:auto; margin-right:auto;">
+          <img src="keys.png" width="75px" style="margin-left:auto; margin-right:auto;">
+          <h4> Use the <strong>space bar</strong> to switch from moving to aiming to firing.</h4>
+          <h4><strong>When moving,</strong> Use the Left and Right arrow keys to move</h4>
+          <h4><strong>When aiming,</strong> And use Up and Down to move the turret and Left and Right to change power</h4>
+        </div>
+      </div>
+
       <?php } ?>
 
 
