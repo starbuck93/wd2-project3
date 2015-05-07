@@ -15,7 +15,7 @@ socket.on('addUsername', function (data) {
 });
 
 
-    socet.on('gameIsOver', function (data){
+    socket.on('gameIsOver', function (data){
 
     });
 
@@ -447,7 +447,7 @@ socket.on('onJoin', function (data) {
             {
                 socket.emit('gameOver', {winner: player.pName});
             }
-            
+
             if(player2.points >= 10)
             {
                 socket.emit('gameOver', {winner: player2.pName});
