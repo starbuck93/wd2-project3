@@ -22,7 +22,18 @@ if (isset($_POST['submit'])) {
     $password = md5($password);
     // SQL query to fetch information of registerd users and finds user match.
     $query = "INSERT INTO `login`(`name`, `username`, `email`, `password`) VALUES ('".$name."','".$username."','".$email."','".$password."');
-              ";
+              INSERT INTO 'achievements' ('user', 'objective', 'done') VALUES 
+                ('".$username."', 'Playing Your First Game!', 'false'),
+                ('".$username."', 'Played 100 games!', 'false'),
+                ('".$username."', 'Shot 500 times!', 'false'),
+                ('".$username."', 'Played 200 games!', 'false'),
+                ('".$username."', 'Destroyed 100 enemy tanks!', 'false'),
+                ('".$username."', 'Shot 1000 times!', 'false'),
+                ('".$username."', 'Destroyed 500 enemey tanks!', 'false'),
+                ('".$username."', 'Shot once!', 'false'),
+                ('".$username."', 'Drive 100 miles!', 'false'),
+                ('".$username."', 'Drive 500 miles!', 'false');
+            ";
     
     $result = $link->query($query);
     if(!$result) {

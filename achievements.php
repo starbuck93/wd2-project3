@@ -88,17 +88,25 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       
       <?php 
 
+      $link = new mysqli(getHost(),getUsername(),getPassword(),"tanks"); /*for local testing only*/
+      if ($link->connect_errno) {
+        printf("Connect failed: %s\n", $link->connect_error);
+        exit();
+      }
+
+      $result = $link->query("SELECT a.* FROM achievements a INNER JOIN login l ON l.username = a.user WHERE a.user = '".$$_SESSION['username']."'");
+
       $something = FALSE;
 
-      for ($x = 0; $x <= 10; $x++) {
+      for ($row = mysqli_fetch_array($result)) {
         
-        if ($something == TRUE)
+        if ($row['bool'])
         {
           // echo '<span class="label label-success" style="font-size: 25px;">Default</span> <br> <br>';
 
           echo '<div class="alert alert-danger" role="alert">';
           echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
-          echo 'Enter a valid email address';
+          echo $row['objective'];
           echo '</div>';
         }
 
@@ -108,7 +116,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
           echo '<div class="alert alert-danger" role="alert">';
           echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
-          echo 'Enter a valid email address';
+          echo $row['objective'];
           echo '</div>';
         }
       } 
