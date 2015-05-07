@@ -68,6 +68,7 @@ socket.on('enemyFired', function(data){
 });
 
    var player;
+   var player2;
    // var playerNum = ;
    var ground;
    var flagWaiting = true;
@@ -97,6 +98,7 @@ socket.on('onJoin', function (data) {
         }
 
         this.pName = playerName;
+        this.points = 0;
 
         this.game = game;
         this.move = true;
@@ -171,6 +173,16 @@ socket.on('onJoin', function (data) {
 
             bullet.kill();
             console.log("add a point");
+            if (tank == player.tank){
+                console.log("player2 gets a point");
+                player2.points = player2.points + 1;
+                console.log(player2.points);
+            }
+            else{
+                console.log("player 1 gets a point");
+                player.points = player.points + 1;
+                console.log(player.points);
+            } 
 
         },
 
@@ -280,8 +292,14 @@ socket.on('onJoin', function (data) {
 
 		this.background = null;
 
-		this.power = 300;
-		this.powerText = null;
+        this.power = 300;
+        this.powerText = null;
+
+        this.points = 300;
+        this.pointsText = null;
+
+        this.points2 = 300;
+        this.points2Text = null;
 
 		this.cursors = null;
 		this.fireButton = null;
@@ -325,6 +343,17 @@ socket.on('onJoin', function (data) {
             player = new Tank(players[0], 0, this, 0, 0);
             player2 = new Tank(players[1], 1, this, 600, 0);
             player2.cannon.angle = -179;
+
+            this.points = player2.points;
+            this.pointsText = this.add.text(8, this.game.world.height-40, 'Player 1 Points: 0', { font: "18px Arial", fill: "#ffffff" });
+            this.pointsText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.pointsText.fixedToCamera = true;
+
+            this.points2 = player2.points;
+            this.points2Text = this.add.text(this.game.world.width-170, this.game.world.height-40, 'Player 2 Points: 0', { font: "18px Arial", fill: "#ffffff" });
+            this.points2Text.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.points2Text.fixedToCamera = true;
+
 
             //  Used to display the power of the shot
             this.power = player.power;
@@ -386,7 +415,7 @@ socket.on('onJoin', function (data) {
             socket.on("updateAll", function(data){
                 player2.tank.x = data.playersX[0];
                 player2.cannon.angle = data.playersX[1];
-                player2.power = data.playersX[2]
+                player2.power = data.playersX[2];
             });
             }
             else{
@@ -395,7 +424,7 @@ socket.on('onJoin', function (data) {
             socket.on("updateAll", function(data){
                 player.tank.x = data.playersX[0];
                 player.cannon.angle = data.playersX[1];
-                player.power = data.playersX[2]
+                player.power = data.playersX[2];
             });
             }
 
@@ -405,6 +434,17 @@ socket.on('onJoin', function (data) {
             }
             else {
                 this.powerText.text = 'My Power: ' + player2.power;
+            }
+
+            this.pointsText.text = "Player 1 points: " + player.points;
+            this.points2Text.text = "Player 2 points: " + player2.points;
+            if(player.points >= 10)
+            {
+                socket.emit('gameOver', {winner: player});
+            }
+            if(player2.points >= 10)
+            {
+                socket.emit('gameOver', {winner: player2});
             }
         }
 
