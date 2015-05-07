@@ -3,15 +3,54 @@ session_start();
 $signedIn = false;
 if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
   $signedIn = true;
+
+$username=$_SESSION['username'];
+$flag = false;
+
+$link = new mysqli(getHost(), getUsername(), getPassword(), "tanks");
+if ($link->connect_errno) {
+  printf("Connect failed: %s\n", $link->connect_error);
+  exit();
+}
+
+$query = "SELECT * FROM achievements where user = '".$username."'";
+
+$result = $link->query($query);
+if(!$result){ 
+  $error = $link->error;
+  die($link->error);
+}
+
+$rows = $result->num_rows;
+
+while($row = mysqli_fetch_assoc($result)){
+  if($row['objective'] == 'Playing Your First Game!' && !$row['status']){
+    $flag = true;
+    $link->query("UPDATE achievements SET status = 'true' WHERE user = '".$username."';");
+  }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
+
+
     <script >
     var client = "<?php echo $_SESSION['username']; ?>";
     var theWinner = '';
+    var alert = "<?php echo $flag; ?>";
+
+    if(alert){
+      alert("Playing Your First Game!");
+    }
     </script>
+
+
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tanks Lobby</title>
@@ -110,7 +149,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
 
 
       <footer class="footer">
-        <p>&copy; Company 2014</p>
+        <p>&copy; Company 2015</p>
+        <iframe src="https://ghbtns.com/github-btn.html?user=starbuck93&repo=wd2-project3&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
       </footer>
 
     </div> <!-- /container -->
@@ -138,12 +178,12 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-          window.location.replace("http://104.130.213.180/wd2-project3/redirect.php");
+          window.location.replace("http://.../wd2-project3/redirect.php");
         }
       });
       socket.on('refresh',function(){
         console.log('page should refresh');
-        window.location.replace("http:///wd2-project3/redirect.php");
+        window.location.replace("http://.../wd2-project3/redirect.php");
       });
       socket.on('gameIsOver', function(data){
         theWinner = data.winner;
