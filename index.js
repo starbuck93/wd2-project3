@@ -40,7 +40,7 @@ app.listen(1234);
         }
 
 
-        socket.broadcast.to(id).emit('opponentMove', {player: data.player, move: data.direction, x: data.x});
+        //socket.broadcast.to(id).emit('opponentMove', {player: data.player, move: data.direction, x: data.x});
         //                         player number or name,       left or right
         socket.emit('playerMove', {player: data.player, move: data.direction});
         // socket.broadcast.emit('playerMove', {player: data.player, move: data.direction});
@@ -49,7 +49,10 @@ app.listen(1234);
  	socket.on('sendAll', function(data) { //do stuff
         socket.broadcast.emit('updateAll', data);
     });
- 	socket.on('gameOver', function(data) { //Post who the winner is!
+ 	socket.on('someoneFired', function(data){
+        socket.broadcast.emit('enemyFired', data);
+    });
+    socket.on('gameOver', function(data) { //Post who the winner is!
 
     });
 

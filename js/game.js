@@ -1,5 +1,5 @@
 
-var socket = io('http://wd2.starbuckstech.com:1234');
+var socket = io('http://104.130.213.180:1234');
 var players = [];
 
 
@@ -58,6 +58,14 @@ socket.on('addUsername', function (data) {
     });
 
 
+socket.on('enemyFired', function(data){
+    if(data.player == player.pName){
+        player.fire();
+    }
+    else{
+        player2.fire();
+    }
+});
 
    var player;
    // var playerNum = ;
@@ -137,6 +145,8 @@ socket.on('onJoin', function (data) {
             {
                 return;
             }
+
+            socket.emit('someoneFired', {player: this.pName});
 
             //  Re-position the bullet where the cannon is
             this.bullet.reset(this.cannon.x, this.cannon.y);
@@ -369,7 +379,6 @@ socket.on('onJoin', function (data) {
                 player2.cursor.up = this.cursors.up.isDown;
                 player2.cursor.down = this.cursors.down.isDown;
             }
-
 
             player.update();
             player2.update();
