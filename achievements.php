@@ -88,7 +88,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       
       <?php 
 
-      $something = FALSE;
+      $something = TRUE;
 
       for ($x = 0; $x <= 10; $x++) {
         
@@ -96,9 +96,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         {
           // echo '<span class="label label-success" style="font-size: 25px;">Default</span> <br> <br>';
 
-          echo '<div class="alert alert-danger" role="alert">';
-          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
-          echo 'Enter a valid email address';
+          echo '<div class="alert alert-success" role="alert" style="font-size: 20px;">';
+          echo ' &#x2714;  Enter a valid email address';
           echo '</div>';
         }
 
@@ -106,9 +105,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         {
           // echo '<span class="label label-danger" style="font-size: 25px;">Default</span> <br> <br>'; 
 
-          echo '<div class="alert alert-danger" role="alert">';
-          echo '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
-          echo 'Enter a valid email address';
+          echo '<div class="alert alert-danger" role="alert" style="font-size: 20px;">';
+          echo ' &#x2716;  Enter a valid email address';
           echo '</div>';
         }
       } 
