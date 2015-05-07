@@ -10,6 +10,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <meta charset="utf-8">
     <script >
     var client = "<?php echo $_SESSION['username']; ?>";
+    var theWinner = '';
     </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,7 +89,23 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       </div>
       <?php } else {?>
 
-      <div id='game'></div>   
+      <div class="row">
+        <div class="col-md-8">
+          <div id='game'></div>  
+        </div>
+        <div class="col-md-4">
+          <h2>How to play:</h2>
+          <h4>Hit your opponent to get 10 points before they do!</h4>
+          <h4>The more you play, the better you'll get and the more points you need to win!</h4>
+          <h3>Controls:</h3>
+          <img src="space.png" width="150px" style="margin-left:auto; margin-right:auto;">
+          <img src="keys.png" width="75px" style="margin-left:auto; margin-right:auto;">
+          <h4> Use the <strong>space bar</strong> to switch from moving to aiming to firing.</h4>
+          <h4><strong>When moving,</strong> Use the Left and Right arrow keys to move</h4>
+          <h4><strong>When aiming,</strong> And use Up and Down to move the turret and Left and Right to change power</h4>
+        </div>
+      </div>
+
       <?php } ?>
 
 
@@ -105,6 +122,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       var game = new Phaser.Game(640,480, Phaser.CANVAS, 'game');
       game.state.add("play", PhaserGame, true);
       game.state.add('menu', menu, true);
+      game.state.add('gameOver', gameOver, true);
       game.state.start("menu");
 
       socket.on('connect', function(){
@@ -120,12 +138,12 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
         if (data.playerCount < 2) {
           console.log("Let's get outta here");
           // similar behavior as an HTTP redirect
-<<<<<<< HEAD
-          window.location.replace("http://wd2.starbuckstech.com/wd2-project3/redirect.php");
-=======
-          window.location.replace("http://104.130.213.145/wd2-project3/redirect.php");
->>>>>>> a4fa562ca14d810148378eba6588e5a7d014d4a1
+          window.location.replace("http:///wd2-project3/redirect.php");
         }
+      });
+      socket.on('gameIsOver', function(data){
+        theWinner = data.winner;
+        game.state.start('gameOver');
       });
 
   </script>

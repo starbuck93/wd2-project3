@@ -1,7 +1,5 @@
 
-var socket = io('http://104.130.213.180:1234');
-
-//var socket = io('http://104.130.213.145:1234');
+var socket = io('http://:1234');
 
 var players = [];
 
@@ -15,7 +13,6 @@ socket.on('addUsername', function (data) {
         i += 1;
     }
 });
-
 
     socket.on('opponentMove', function (data) {
         if (player.pName && (player.pName == data.player)) {
@@ -70,6 +67,7 @@ socket.on('enemyFired', function(data){
 });
 
    var player;
+   var player2;
    // var playerNum = ;
    var ground;
    var flagWaiting = true;
@@ -99,6 +97,7 @@ socket.on('onJoin', function (data) {
         }
 
         this.pName = playerName;
+        this.points = 0;
 
         this.game = game;
         this.move = true;
@@ -133,7 +132,7 @@ socket.on('onJoin', function (data) {
         bulletVsLand: function () {
 
             //  Simple bounds check
-            if (this.bullet.x < 0 || this.bullet.x > this.game.world.width || this.bullet.y > this.game.height)
+            if (this.bullet.x < 0 || this.bullet.x > this.game.world.width || this.bullet.y > this.game.world.height-64 || this.bullet.body.velocity == 0)
             {
                 this.removeBullet();
                 return;
@@ -162,9 +161,28 @@ socket.on('onJoin', function (data) {
 
         },
 
+
+
         removeBullet: function () {
 
             this.bullet.kill();
+        },
+
+        hitTarget: function (bullet, tank) {
+
+            bullet.kill();
+            console.log("add a point");
+            if (tank == player.tank){
+                console.log("player2 gets a point");
+                player2.points = player2.points + 1;
+                console.log(player2.points);
+            }
+            else{
+                console.log("player 1 gets a point");
+                player.points = player.points + 1;
+                console.log(player.points);
+            } 
+
         },
 
         switchB: function(){
@@ -196,6 +214,7 @@ socket.on('onJoin', function (data) {
             if (this.bullet.exists) {
                 //  Bullet vs. the land
                 this.bulletVsLand();
+
             }
             else {
                 if(this.move){
@@ -248,7 +267,6 @@ socket.on('onJoin', function (data) {
         preload: function(){
 
             this.load.image('background', 'images/menuBackground.jpg');
-            this.load.image('startButton', 'images/startButton.png');
 
         },
 
@@ -272,8 +290,14 @@ socket.on('onJoin', function (data) {
 
 		this.background = null;
 
-		this.power = 300;
-		this.powerText = null;
+        this.power = 300;
+        this.powerText = null;
+
+        this.points = 300;
+        this.pointsText = null;
+
+        this.points2 = 300;
+        this.points2Text = null;
 
 		this.cursors = null;
 		this.fireButton = null;
@@ -318,9 +342,20 @@ socket.on('onJoin', function (data) {
             player2 = new Tank(players[1], 1, this, 600, 0);
             player2.cannon.angle = -179;
 
+            this.points = player2.points;
+            this.pointsText = this.add.text(8, this.game.world.height-40, 'Player 1 Points: 0', { font: "18px Arial", fill: "#ffffff" });
+            this.pointsText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.pointsText.fixedToCamera = true;
+
+            this.points2 = player2.points;
+            this.points2Text = this.add.text(this.game.world.width-170, this.game.world.height-40, 'Player 2 Points: 0', { font: "18px Arial", fill: "#ffffff" });
+            this.points2Text.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+            this.points2Text.fixedToCamera = true;
+
+
             //  Used to display the power of the shot
             this.power = player.power;
-            this.powerText = this.add.text(8, 8, 'Power: 300', { font: "18px Arial", fill: "#ffffff" });
+            this.powerText = this.add.text(8, 8, 'My Power: 300', { font: "18px Arial", fill: "#ffffff" });
             this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
             this.powerText.fixedToCamera = true;
 
@@ -353,6 +388,8 @@ socket.on('onJoin', function (data) {
 		
         update: function () {
 
+            this.physics.arcade.overlap(player2.bullet, player.tank, player2.hitTarget, null, this);
+            this.physics.arcade.overlap(player.bullet, player2.tank, player.hitTarget, null, this);
 
             if(client == player.pName) {   
                 player.cursor.left = this.cursors.left.isDown;
@@ -371,29 +408,79 @@ socket.on('onJoin', function (data) {
             player2.update();
 
             if (player.pName && (player.pName == client)) {
-                socket.emit("sendAll", {playersX: [player.tank.x, player.cannon.angle]});
+                socket.emit("sendAll", {playersX: [player.tank.x, player.cannon.angle, player.power]});
             
             socket.on("updateAll", function(data){
                 player2.tank.x = data.playersX[0];
                 player2.cannon.angle = data.playersX[1];
+                player2.power = data.playersX[2];
             });
             }
             else{
-                socket.emit("sendAll", {playersX: [player2.tank.x, player2.cannon.angle]});
+                socket.emit("sendAll", {playersX: [player2.tank.x, player2.cannon.angle, player2.power]});
             
             socket.on("updateAll", function(data){
                 player.tank.x = data.playersX[0];
                 player.cannon.angle = data.playersX[1];
+                player.power = data.playersX[2];
             });
             }
 
             //  Update the text
             if(client == player.pName) {    
-                this.powerText.text = 'Power: ' + player.power;
+                this.powerText.text = 'My Power: ' + player.power;
             }
             else {
-                this.powerText.text = 'Power: ' + player2.power;
+                this.powerText.text = 'My Power: ' + player2.power;
+            }
+
+            this.pointsText.text = "Player 1 points: " + player.points;
+            this.points2Text.text = "Player 2 points: " + player2.points;
+
+            if(player.points >= 10)
+            {
+                socket.emit('gameOver', {winner: player.pName});
+            }
+
+            if(player2.points >= 10)
+            {
+                socket.emit('gameOver', {winner: player2.pName});
             }
         }
 
     };
+
+
+
+
+var gameOver = function(game){
+
+    this.background = null;
+    this.game = game;
+    this.winner = null;
+};
+
+gameOver.prototype = {
+
+    preload: function(){
+
+        this.load.image('GameOver', 'images/GameOver.png');
+        this.load.image('button', 'images/button.png');
+    },
+
+    create: function(){
+
+        this.background = this.add.sprite(0,0, 'GameOver');
+        this.button = this.add.button(this.game.world.centerX, this.game.world.centerY, 'button', this.startGame);
+        this.button.scale.x = .3;
+        this.button.scale.y = .3;
+
+        this.winnerText = this.add.text(8, 8, 'The Winner is: ' + theWinner, { font: "18px Arial", fill: "#ffffff" });
+        this.winnerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+        this.winnerText.fixedToCamera = true;
+    },
+    startGame: function(){
+
+        socket.emit('playAgain');
+    }
+}

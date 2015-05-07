@@ -48,7 +48,11 @@ app.listen(1234);
         socket.broadcast.emit('enemyFired', data);
     });
     socket.on('gameOver', function(data) { //Post who the winner is!
-
+        socket.broadcast.emit('gameIsOver', data)
+        socket.emit('gameIsOver', data)
+    });
+    socket.on('playAgain', function(){
+        socket.broadcast.emit('someoneLeft',{playerCount:people});
     });
 
     socket.on('disconnect', function() {
