@@ -14,11 +14,6 @@ socket.on('addUsername', function (data) {
     }
 });
 
-
-    socket.on('gameIsOver', function (data){
-
-    });
-
     socket.on('opponentMove', function (data) {
         if (player.pName && (player.pName == data.player)) {
             if (data.x && (player.tank.x != data.x) && (data.x != player2.tank.x)){
@@ -463,11 +458,6 @@ var gameOver = function(game){
     this.background = null;
     this.game = game;
     this.winner = null;
-
-
-    socket.on('gameIsOver', function(data){
-        this.winner = data.winner;
-    });
 };
 
 gameOver.prototype = {
@@ -485,7 +475,7 @@ gameOver.prototype = {
         this.button.scale.x = .3;
         this.button.scale.y = .3;
 
-        this.winnerText = this.add.text(8, 8, 'The Winner is: ' + this.winner, { font: "18px Arial", fill: "#ffffff" });
+        this.winnerText = this.add.text(8, 8, 'The Winner is: ' + theWinner, { font: "18px Arial", fill: "#ffffff" });
         this.winnerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
         this.winnerText.fixedToCamera = true;
     },

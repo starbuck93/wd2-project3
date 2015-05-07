@@ -10,6 +10,7 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
     <meta charset="utf-8">
     <script >
     var client = "<?php echo $_SESSION['username']; ?>";
+    var theWinner = '';
     </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,10 +90,10 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
       <?php } else {?>
 
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
           <div id='game'></div>  
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
           <h2>How to play:</h2>
           <h4>Hit your opponent to get 10 points before they do!</h4>
           <h4>The more you play, the better you'll get and the more points you need to win!</h4>
@@ -140,8 +141,8 @@ if(isset($_SESSION['signedIn']) && $_SESSION['signedIn'] == true)
           window.location.replace("http:///wd2-project3/redirect.php");
         }
       });
-
       socket.on('gameIsOver', function(data){
+        theWinner = data.winner;
         game.state.start('gameOver');
       });
 
